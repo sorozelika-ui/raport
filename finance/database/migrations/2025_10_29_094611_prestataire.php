@@ -6,23 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-   /**
-     * Run the migrations.
-     */
+   
     public function up(): void
     {
-        Schema::create('type_prestataire', function (Blueprint $table) {
-            $table->id();
-            $table->STRING('nom');
-            $table->string('specialite');
-            $table->string('addresse');
-            $table->timestamps();
-        });
+        if(!schema::hastable('type_prestataire'))
+        {
+               Schema::create('type_prestataire', function (Blueprint $table) 
+            {
+               $table->id();
+               $table->STRING('nom');
+               $table->string('specialite');
+               $table->string('addresse');
+               $table->timestamps();
+            }
+          );
+        }
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('type_prestataire');
