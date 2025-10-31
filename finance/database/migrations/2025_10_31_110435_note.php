@@ -10,22 +10,24 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {  if (!Schema::hasTable('evaluations')) {
-         Schema::create('evaluations', function (Blueprint $table) {
+    {
+         if(!schema::hastable('note'))
+        {
+          Schema::create('note', function (Blueprint $table) 
+          {
             $table->id();
-            $table->STRING('note');
-            $table->string('moyenne');
-            $table->string('appreciation');
+             $table->string('nt');
+              $table->text('appreciation');
             $table->timestamps();
-        });
+          });
+        }
     }
-}
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('evaluations');
+        Schema::dropIfExists('note');
     }
 };

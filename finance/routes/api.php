@@ -4,10 +4,14 @@ use App\Http\Controllers\CritereController;
 use App\Http\Controllers\ANNEEController;
 use App\Http\Controllers\type_prestatairecontroller;
 use App\Http\Controllers\evaluationscontroller;
+use App\Http\Controllers\notecontroller;
+use App\Http\Controllers\affichagecontroller;
 
 Route::get('/criteres',[CritereController::class,'index']);
+Route::get('/criteres/{id}', [CritereController::class,'show']);
 Route::post('/criteres',[CritereController::class,'store']);
-
+Route::post('/criteres/{id}', [CritereController::class,'update']);
+Route::delete('/criteres/{id}', [CritereController::class,'destroy']);
 
 Route::post('/ANNEE', [AnneeController::class, 'store']);
 Route::get('/ANNEE', [AnneeController::class, 'index']);
@@ -15,5 +19,14 @@ Route::get('/ANNEE', [AnneeController::class, 'index']);
 Route::post('/prestataire', [type_prestatairecontroller::class, 'store']);
 Route::get('/prestataire', [type_prestatairecontroller::class, 'index']);
 
-Route::post('/evaluer', [evaluationscontroller::class, 'store']);
-Route::get('/evaluer', [evaluationscontroller::class, 'index']);
+Route::get('/note',[notecontroller::class,'index']);
+Route::get('/note/{id}', [notecontroller::class,'show']);
+Route::post('/note',[notecontroller::class,'store']);
+Route::post('/note/{id}', [notecontroller::class,'update']);
+Route::delete('/note/{id}', [notecontroller::class,'destroy']);
+
+Route::get('/evaluer',[affichagecontroller::class,'index']);
+Route::get('/evaluer/{id}',[affichagecontroller::class,'show']);
+Route::post('/evaluer',[affichagecontroller::class,'store']);
+Route::post('/evaluer/{id}',[affichagecontroller::class,'update']);
+Route::delete('/evaluer/{id}',[affichagecontroller::class,'destroy']); 

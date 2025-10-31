@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TypePrestataire extends Model
+class Type_Prestataire extends Model
 {
     use HasFactory;
 

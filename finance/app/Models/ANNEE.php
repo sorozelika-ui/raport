@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ANNEE extends Model
 {
-   protected $table='annee';
+   protected $table='années';
    
    protected $fillable = [ 'liban'];
     protected $timestamp=true;
