@@ -26,7 +26,7 @@ class CritereController extends Controller
         ]);
     }
     
-    // 🔹 3. Afficher un critère spécifique (GET /critere/{id})
+  
     public function show($id)
     {
         $critere = Critere::find($id);
@@ -38,13 +38,13 @@ class CritereController extends Controller
         return response()->json($critere);
     }
 
-    // 🔹 4. Modifier un critère (POST /critere/{id})
+    
     public function update(Request $request, $id)
     {
         $critere = Critere::find($id);
 
         if (!$critere) {
-            return response()->json(['message' => 'Critère non trouvé'], 404);
+            return response()->json(['message' => 'Critère non trouvé']);
         }
 
         $validatedData = $request->validate([
@@ -60,13 +60,13 @@ class CritereController extends Controller
         ]);
     }
 
-    // 🔹 5. Supprimer un critère (DELETE /critere/{id})
+    
     public function destroy($id)
     {
         $critere = Critere::find($id);
 
         if (!$critere) {
-            return response()->json(['message' => 'Critère non trouvé'], 404);
+            return response()->json(['message' => 'Critère non trouvé']);
         }
 
         $critere->delete();

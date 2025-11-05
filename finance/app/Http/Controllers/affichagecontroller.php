@@ -7,51 +7,91 @@ use App\Models\affichage;
 class affichagecontroller extends Controller
 
 
-{// 🔹 1. Afficher toutes les évaluations
+{
     public function index()
     {
-        return response()->json(
-            Evaluations::with(['type_prestataire', 'criteres', 'note', 'années'])->get()
-        );
-    }
+            $evaluations = affichage::with(['type_Prestataire', 'critere', 'note', 'annee'])->get();
 
-    // 🔹 2. Créer une nouvelle évaluation
+    $resultats = $evaluations->map(function ($note) {
+        return [
+            'id' => $note->id,
+            'prestataire' => $note->type_Prestataire->nom ?? 'Inconnu',
+            'specialite' => $note->type_Prestataire->specialite ?? '—',
+            'critere' => $note->critere->libcrit ?? '—',
+            'note' => $note->note->nt ?? '—',
+            'annee' => $note->annee->liban ?? '—',
+        ];
+    });
+
+    return response()->json($resultats);
+}
+
     public function store(Request $request)
-    {
-        $validated = $request->validate([
+    { 
+         $validated = $request->validate([
             'type_prestataire_id' => 'required|exists:type_prestataire,id',
-            'criteres_id' => 'required|exists:criteres,id',
-            'note_id' => 'required|exists:note,id',
             'années_id' => 'required|exists:années,id',
+            'evaluations' => 'required|array|min:1|max:20',
+            'evaluations.*.criteres_id' => 'required|exists:criteres,id',
+            'evaluations.*.note_id' => 'required|exists:note,id',
         ]);
 
-        $evaluation = Evaluations::create($validated);
+        $results = [];
+
+        foreach ($validated['evaluations'] as $evaluationData) {
+            $evaluation = affichage::create([
+                'type_prestataire_id' => $validated['type_prestataire_id'],
+                'criteres_id' => $evaluationData['criteres_id'],
+                'note_id' => $evaluationData['note_id'],
+                'années_id' => $validated['années_id'],
+            ]);
+
+            $results[] = [
+                'prestataire' => Type_Prestataire::find($evaluation->type_prestataire_id)->nom ?? 'Inconnu',
+                'specialite' => Type_Prestataire::find($evaluation->type_prestataire_id)->specialite ?? '',
+                'critere' => Critere::find($evaluation->criteres_id)->libcrit ?? '',
+                'note' => note::find($evaluation->note_id)->nt ?? '',
+                'annee' => ANNEE::find($evaluation->années_id)->liban ?? '',
+                'critere' => Critere::find($evaluation->criteres_id)->libcrit ?? '',
+                'note' => note::find($evaluation->note_id)->nt ?? '',
+                'annee' => ANNEE::find($evaluation->années_id)->liban ?? '',
+            ];
+        }
+
+        // Calculer la moyenne des notes
+        $notes = array_map(function ($r) {
+            return (float) $r['note'];
+        }, $results);
+        $moyenne = count($notes) ? array_sum($notes) / count($notes) : 0;
 
         return response()->json([
-            'message' => 'Évaluation enregistrée avec succès ✅',
-            'data' => $evaluation
+            'message' => 'Évaluations enregistrées avec succès',
+            'moyenne' => number_format($moyenne, 2),
+            'details' => $results
         ]);
+    
+
     }
 
-    // 🔹 3. Afficher une évaluation précise
+    
     public function show($id)
     {
-        $evaluation = Evaluations::with(['type_prestataire', 'criteres', 'note', 'années'])->find($id);
+        $evaluation = affichage::with(['type_prestataire', 'criteres', 'note', 'années'])->find($id);
 
         if (!$evaluation) {
-            return response()->json(['message' => 'Évaluation non trouvée ❌'], 404);
+            return response()->json(['message' => 'Évaluation non trouvée ']);
         }
 
         return response()->json($evaluation);
     }
 
-    // 🔹 4. Modifier une évaluation
+    //Modifier une évaluation
     public function update(Request $request, $id)
     {
-        $evaluation = Evaluations::find($id);
+        $evaluation = affichage::find($id);
 
         if (!$evaluation) {
-            return response()->json(['message' => 'Évaluation non trouvée ❌'], 404);
+            return response()->json(['message' => 'Évaluation non trouvée ']);
         }
 
         $validated = $request->validate([
@@ -64,23 +104,23 @@ class affichagecontroller extends Controller
         $evaluation->update($validated);
 
         return response()->json([
-            'message' => 'Évaluation mise à jour avec succès ✏️',
+            'message' => 'Évaluation mise à jour avec succès ',
             'data' => $evaluation
         ]);
     }
 
-    // 🔹 5. Supprimer une évaluation
+    //  Supprimer une évaluation
     public function destroy($id)
     {
-        $evaluation = Evaluations::find($id);
+        $evaluation = affichage::find($id);
 
         if (!$evaluation) {
-            return response()->json(['message' => 'Évaluation non trouvée ❌'], 404);
+            return response()->json(['message' => 'Évaluation non trouvée '],);
         }
 
         $evaluation->delete();
 
-        return response()->json(['message' => 'Évaluation supprimée avec succès 🗑️']);
+        return response()->json(['message' => 'Évaluation supprimée avec succès ']);
     }
     
 }

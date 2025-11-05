@@ -2,27 +2,38 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-class affichage extends Model
-{   protected $table='evaluations';
-    protected $fillable=[
-        'type_prestataire_id','criteres_id','note_id','années_id',
+use Illuminate\Database\Eloquent\Model;
+
+class Affichage extends Model
+{
+    use HasFactory;
+
+    protected $table = 'evaluations'; 
+    protected $fillable = [
+        'type_prestataire_id',
+        'criteres_id',
+        'note_id',
+        'années_id'
     ];
-    public function type_prestataire()
+
+    public function type_Prestataire()
     {
-    return $this->belongsto(type_prestataire::class);
+        return $this->belongsTo(Type_Prestataire::class, 'type_prestataire_id');
     }
+
     public function critere()
     {
-    return $this->belongsto(critere::class);
+        return $this->belongsTo(Critere::class, 'criteres_id');
     }
-        public function note()
+
+    public function note()
     {
-    return $this->belongsto(note::class);
+        return $this->belongsTo(note::class, 'note_id');
     }
+
     public function ANNEE()
     {
-    return $this->belongsto(ANNEE::class);
+        return $this->belongsTo(ANNEE::class, 'années_id');
     }
 }

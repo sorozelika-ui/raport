@@ -14,37 +14,48 @@ class notecontroller extends Controller
 
     public function store(Request $request)
     {
-       $request->validate(['nt'=>'required|string',
-       'appreciation'=>'required|string',]);
+       $request->validate(['nt'=>'required|numeric|min:1|max:20',
+       'appreciation'=>'required|string', 'moyenne'=>'required|float',]);
 
         $note=note::create(['nt'=>$request->nt,
         'appreciation'=>$request->appreciation]);
-        
         return response()->json([
             'message' => 'note ajouté avec succès',
             'data' => $note
         ]);
+
+        // Calculer la moyenne des notes
+         $notes = array_map(function ($r) {
+            return (float) $r['note'];
+        }, $results);
+        $moyenne = count($notes) ? array_sum($notes) / count($notes) : 0;
+
+        return response()->json([
+            'message' => 'Évaluations enregistrées avec succès',
+            'moyenne' => number_format($moyenne, 2),
+            'details' => $results
+        ]);
     }
     
-    // 🔹 3. Afficher un critère spécifique (GET /note/{id})
+    
     public function show($id)
     {
         $note = note::find($id);
 
         if (!$note) {
-            return response()->json(['message' => 'note non trouvé'], 404);
+            return response()->json(['message' => 'note non trouvé']);
         }
 
         return response()->json($note);
     }
 
-    // 🔹 4. Modifier un note (POST /note/{id})
+    
     public function update(Request $request, $id)
     {
         $note = note::find($id);
 
         if (!$note) {
-            return response()->json(['message' => 'note non trouvé'], 404);
+            return response()->json(['message' => 'note non trouvé']);
         }
 
         $validatedData = $request->validate([
@@ -60,13 +71,13 @@ class notecontroller extends Controller
         ]);
     }
 
-    // 🔹 5. Supprimer un note (DELETE /note/{id})
+    
     public function destroy($id)
     {
         $note = note::find($id);
 
         if (!$note) {
-            return response()->json(['message' => 'note non trouvé'], 404);
+            return response()->json(['message' => 'note non trouvé']);
         }
 
         $note->delete();

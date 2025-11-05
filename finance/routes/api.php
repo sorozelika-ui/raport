@@ -15,9 +15,15 @@ Route::delete('/criteres/{id}', [CritereController::class,'destroy']);
 
 Route::post('/ANNEE', [AnneeController::class, 'store']);
 Route::get('/ANNEE', [AnneeController::class, 'index']);
+Route::get('/ANNEE/{id}', [AnneeController::class,'show']);
+Route::post('/ANNEE/{id}', [AnneeController::class,'update']);
+Route::delete('/ANNEE/{id}', [AnneeController::class,'destroy']);
 
-Route::post('/prestataire', [type_prestatairecontroller::class, 'store']);
 Route::get('/prestataire', [type_prestatairecontroller::class, 'index']);
+Route::post('/prestataire', [type_prestatairecontroller::class, 'store']);
+Route::get('/prestataire/{id}', [type_prestatairecontroller::class,'show']);
+Route::post('/prestataire/{id}', [type_prestatairecontroller::class,'update']);
+Route::delete('/prestataire/{id}', [type_prestatairecontroller::class,'destroy']);
 
 Route::get('/note',[notecontroller::class,'index']);
 Route::get('/note/{id}', [notecontroller::class,'show']);
