@@ -31,8 +31,8 @@ Route::post('/note',[notecontroller::class,'store']);
 Route::post('/note/{id}', [notecontroller::class,'update']);
 Route::delete('/note/{id}', [notecontroller::class,'destroy']);
 
-Route::get('/evaluer',[affichagecontroller::class,'index']);
+Route::get('/evaluer',[affichagecontroller::class,'store']);
 Route::get('/evaluer/{id}',[affichagecontroller::class,'show']);
-Route::post('/evaluer',[affichagecontroller::class,'store']);
+Route::post('/evaluer',[affichagecontroller::class,'index']);
 Route::post('/evaluer/{id}',[affichagecontroller::class,'update']);
 Route::delete('/evaluer/{id}',[affichagecontroller::class,'destroy']); 

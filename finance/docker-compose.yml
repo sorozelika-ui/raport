@@ -14,7 +14,7 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   pgadmin:
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4 
     container_name: my-pgadmin
     restart: always
     environment:
