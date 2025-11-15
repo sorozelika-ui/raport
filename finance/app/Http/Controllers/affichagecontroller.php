@@ -14,7 +14,7 @@ class affichagecontroller extends Controller
 
 
 {
-    // ===================== STORE =====================
+    //  STORE 
     public function store()
     {
         $evaluations = affichage::with([
@@ -56,7 +56,7 @@ class affichagecontroller extends Controller
         return response()->json($resultats);
     }
 
-    // ===================== INDEX =====================
+    //  INDEX 
      public function index(Request $request)
     {
         $validated = $request->validate([

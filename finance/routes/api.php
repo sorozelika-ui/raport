@@ -36,3 +36,35 @@ Route::get('/evaluer/{id}',[affichagecontroller::class,'show']);
 Route::post('/evaluer',[affichagecontroller::class,'index']);
 Route::post('/evaluer/{id}',[affichagecontroller::class,'update']);
 Route::delete('/evaluer/{id}',[affichagecontroller::class,'destroy']); 
+
+
+
+//test api login
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
+
+Route::post('/login', function (Request $request) {
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required'
+    ]);
+
+    $user = User::where('email', $request->email)->first();
+
+    if (!$user || !Hash::check($request->password, $user->password)) {
+        return response()->json([
+            'message' => 'Identifiants incorrects'
+        ], 401);
+    }
+
+    // Crée un token pour l’authentification
+    $token = $user->createToken('api_token')->plainTextToken;
+
+    return response()->json([
+        'message' => 'Connexion réussie',
+        'user' => $user,
+        'token' => $token
+    ]);
+});
+
