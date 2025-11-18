@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+
+
+#datepicker .rs-picker-popup .rs-calendar .rs-calendar-table-cell-selected:hover .rs-calendar-table-cell-content {
+    background-color: #0dd64a !important;
+}

@@ -1,7 +1,8 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import "rsuite/dist/rsuite.css";
 
 /*body {
   margin: 0;

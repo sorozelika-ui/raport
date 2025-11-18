@@ -6,10 +6,24 @@ use Illuminate\Http\Request;
 
 class type_prestatairecontroller extends Controller
 {
-      public function index()
+    public function index(Request $request)
     {
-        return response()->json(type_prestataire::all());
+        $query = type_prestataire::query();
+
+        / Recherche
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where('nom', 'LIKE', "%$search%")
+                  ->orWhere('specialite', 'LIKE', "%$search%")
+                  ->orWhere('addresse', 'LIKE', "%$search%");
+        }
+
+        // Tri descendante pour avoir le dernier ajout en haut
+        $prestataires = $query->orderBy('id', 'desc')->get();
+
+        return response()->json($prestataires);
     }
+
 
     public function store(Request $request)
     {

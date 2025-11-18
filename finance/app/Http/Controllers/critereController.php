@@ -7,8 +7,22 @@ use App\Models\Critere;
 
 class CritereController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $query =criteres::query();
+
+        /*Recherche
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where('libcrit', 'LIKE', "%$search%")
+                  ->orWhere('designlib', 'LIKE', "%$search%")
+            
+        }
+
+        // Tri descendante pour avoir le dernier ajout en haut
+        $prestataires = $query->orderBy('id', 'desc')->get();
+
+        return response()->json($prestataires);*/
         return response()->json(Critere::all());
     }
 
