@@ -1,15 +1,15 @@
-import EditIcon from "@rsuite/icons/Edit";
-import TrashIcon from "@rsuite/icons/Trash";
-import VisibleIcon from "@rsuite/icons/Visible";
-import SearchIcon from "@rsuite/icons/Search";
-import { IconButton } from "rsuite";
+import EditIcon from '@rsuite/icons/Edit';
+import TrashIcon from '@rsuite/icons/Trash';
+import VisibleIcon from '@rsuite/icons/Visible';
+import SearchIcon from '@rsuite/icons/Search';
+import { IconButton } from 'rsuite';
 import React, { useEffect, useState } from "react";
 import { Table, Button, Modal, Form, ButtonToolbar, Loader } from "rsuite";
 import axios from "axios";
 
 const { Column, HeaderCell, Cell } = Table;
 
-const Critere = () => {
+const Notes = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -21,21 +21,21 @@ const Critere = () => {
 
   // Selected row
   const [selected, setSelected] = useState(null);
-
+  
   // Form
   const [form, setForm] = useState({
-    libcrit: "",
-    designlib: "",
+    nt: "",
+    appreciation: "",
   });
 
-  // Recherche
+  // Recherche 
   const [search, setSearch] = useState("");
 
   // Fetch API data
-  const fetchCritere = () => {
+  const fetchNotes = () => {
     setLoading(true);
     axios
-      .get("http://127.0.0.1:8000/api/criteres")
+      .get("http://127.0.0.1:8000/api/note")
       .then((res) => {
         setData(Array.isArray(res.data) ? res.data : res.data.data);
       })
@@ -44,13 +44,13 @@ const Critere = () => {
   };
 
   useEffect(() => {
-    fetchCritere();
+    fetchNotes();
   }, []);
 
   // Rechercher les critères
   const handleSearch = () => {
     axios
-      .get(`http://127.0.0.1:8000/api/criteres?search=${search}`)
+      .get(`http://127.0.0.1:8000/api/note?search=${search}`)
       .then((res) => setData(res.data))
       .catch((err) => console.log(err));
   };
@@ -58,10 +58,10 @@ const Critere = () => {
   // Add
   const handleAdd = () => {
     axios
-      .post("http://127.0.0.1:8000/api/criteres", form)
+      .post("http://127.0.0.1:8000/api/note", form)
       .then(() => {
         setOpenAdd(false);
-        fetchCritere();
+        fetchNotes();
       })
       .catch(console.log);
   };
@@ -69,10 +69,10 @@ const Critere = () => {
   // Edit
   const handleEdit = () => {
     axios
-      .put(`http://127.0.0.1:8000/api/criteres/${selected.id}`, form)
+      .put(`http://127.0.0.1:8000/api/note/${selected.id}`, form)
       .then(() => {
         setOpenEdit(false);
-        fetchCritere();
+        fetchNotes();
       })
       .catch(console.log);
   };
@@ -80,51 +80,40 @@ const Critere = () => {
   // Delete
   const handleDelete = () => {
     axios
-      .delete(`http://127.0.0.1:8000/api/criteres/${selected.id}`)
+      .delete(`http://127.0.0.1:8000/api/note/${selected.id}`)
       .then(() => {
         setOpenDelete(false);
-        fetchCritere();
+        fetchNotes();
       })
       .catch(console.log);
   };
 
   return (
-    <div
-      style={{
-        maxWidth: "1200px",
-        margin: "0 auto",
-        padding: "20px",
-        marginBottom: "35px",
-        paddingBottom: "20px",
-        borderBottom: "2px solid transparent",
-        borderImage: "linear-gradient(90deg, #3b82f6, #8b5cf6) 1",
-      }}
-    >
-      <h2
-        style={{
-          fontSize: "32px",
-          fontWeight: "bold",
-          background: "linear-gradient(135deg, #1e40af 0%, #7c3aed 100%)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          marginBottom: "25px",
-        }}
-      >
-        Liste des critères
+    <div style={{
+      maxWidth: "1200px",
+      margin: "0 auto",
+      padding: "20px",
+      marginBottom: "35px",
+      paddingBottom: "20px",
+      borderBottom: "2px solid transparent",
+      borderImage: "linear-gradient(90deg, #3b82f6, #8b5cf6) 1"
+    }}>
+      <h2 style={{
+        fontSize: "32px", 
+        fontWeight: "bold",
+        background: "linear-gradient(135deg, #1e40af 0%, #7c3aed 100%)",
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        marginBottom: "25px"
+      }}>
+        Liste des notes
       </h2>
 
       {/* Bouton SEARCH */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "10px",
-          marginBottom: "20px",
-        }}
-      >
-        <input
-          type="text"
-          placeholder="Rechercher un critère..."
+      <div style={{ display: "flex", justifyContent: "center", gap: "10px", marginBottom: "20px" }}>
+        <input 
+          type="number"
+          placeholder="Rechercher une note ..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           style={{
@@ -134,7 +123,7 @@ const Critere = () => {
             boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
             border: "1px solid #e5e7eb",
             minWidth: "300px",
-            fontSize: "14px",
+            fontSize: "14px"
           }}
         />
         <IconButton
@@ -148,13 +137,7 @@ const Critere = () => {
       </div>
 
       {/* Bouton ajouter */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          marginBottom: "15px",
-        }}
-      >
+      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "15px" }}>
         <Button
           appearance="primary"
           style={{
@@ -164,22 +147,16 @@ const Critere = () => {
             padding: "8px 14px",
           }}
           onClick={() => {
-            setForm({ libcrit: "", designlib: "" });
+            setForm({ nt: "", appreciation: ""});
             setOpenAdd(true);
           }}
         >
-          Ajouter un critère
+          Ajouter une note 
         </Button>
       </div>
 
       {loading ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            paddingTop: "80px",
-          }}
-        >
+        <div style={{ display: "flex", justifyContent: "center", paddingTop: "80px" }}>
           <Loader size="lg" content="Chargement en cours..." />
         </div>
       ) : (
@@ -188,59 +165,51 @@ const Critere = () => {
           data={data}
           bordered
           cellBordered
-          style={{
-            background: "white",
+          style={{ 
+            background: "white", 
             borderRadius: "10px",
-            boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1)",
+            boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1)"
           }}
         >
           <Column width={80} align="center" fixed>
-            <HeaderCell
-              style={{
-                background: "orange",
-                color: "white",
-                fontWeight: "bold",
-              }}
-            >
+            <HeaderCell style={{ 
+              background: "orange", 
+              color: "white",
+              fontWeight: "bold"
+            }}>
               ID
             </HeaderCell>
             <Cell dataKey="id" />
           </Column>
 
           <Column flexGrow={1} minWidth={200}>
-            <HeaderCell
-              style={{
-                background: "orange",
-                color: "white",
-                fontWeight: "bold",
-              }}
-            >
-              Libellé
+            <HeaderCell style={{ 
+              background: "orange", 
+              color: "white",
+              fontWeight: "bold"
+            }}>
+              note
             </HeaderCell>
-            <Cell dataKey="libcrit" />
+            <Cell dataKey="nt" />
           </Column>
 
           <Column flexGrow={1} minWidth={200}>
-            <HeaderCell
-              style={{
-                background: "orange",
-                color: "white",
-                fontWeight: "bold",
-              }}
-            >
-              Désignation
+            <HeaderCell style={{ 
+              background: "orange", 
+              color: "white",
+              fontWeight: "bold"
+            }}>
+              appreciation
             </HeaderCell>
-            <Cell dataKey="designlib" />
+            <Cell dataKey="appreciation" />
           </Column>
 
           <Column width={180} fixed="right">
-            <HeaderCell
-              style={{
-                background: "orange",
-                color: "white",
-                fontWeight: "bold",
-              }}
-            >
+            <HeaderCell style={{ 
+              background: "orange", 
+              color: "white",
+              fontWeight: "bold"
+            }}>
               Actions
             </HeaderCell>
             <Cell>
@@ -312,12 +281,12 @@ const Critere = () => {
         <Modal.Body>
           <Form fluid onChange={(v) => setForm(v)} formValue={form}>
             <Form.Group>
-              <Form.ControlLabel>Libellé</Form.ControlLabel>
-              <Form.Control name="libcrit" />
+              <Form.ControlLabel>note</Form.ControlLabel>
+              <Form.Control name="nt" />
             </Form.Group>
             <Form.Group>
-              <Form.ControlLabel>Désignation</Form.ControlLabel>
-              <Form.Control name="designlib" />
+              <Form.ControlLabel>appreciation</Form.ControlLabel>
+              <Form.Control name="appreciation" />
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -334,17 +303,17 @@ const Critere = () => {
       {/* Modal Modifier */}
       <Modal open={openEdit} onClose={() => setOpenEdit(false)}>
         <Modal.Header>
-          <Modal.Title>Modifier le critère</Modal.Title>
+          <Modal.Title>Modifier la note</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form fluid onChange={(v) => setForm(v)} formValue={form}>
             <Form.Group>
-              <Form.ControlLabel>Libellé</Form.ControlLabel>
-              <Form.Control name="libcrit" />
+              <Form.ControlLabel>note</Form.ControlLabel>
+              <Form.Control name="nt" />
             </Form.Group>
             <Form.Group>
-              <Form.ControlLabel>Désignation</Form.ControlLabel>
-              <Form.Control name="designlib" />
+              <Form.ControlLabel>appreciation</Form.ControlLabel>
+              <Form.Control name="appreciation" />
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -363,7 +332,9 @@ const Critere = () => {
         <Modal.Header>
           <Modal.Title>Supprimer</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Voulez-vous vraiment supprimer ce critère ?</Modal.Body>
+        <Modal.Body>
+          Voulez-vous vraiment supprimer cette note ?
+        </Modal.Body>
         <Modal.Footer>
           <Button color="red" appearance="primary" onClick={handleDelete}>
             Supprimer
@@ -377,26 +348,16 @@ const Critere = () => {
       {/* Modal voir */}
       <Modal open={openView} onClose={() => setOpenView(false)}>
         <Modal.Header>
-          <Modal.Title>Détails du Critère</Modal.Title>
+          <Modal.Title>Détails de la note</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {selected && (
             <div>
-              <p>
-                <strong>ID:</strong> {selected.id}
-              </p>
-              <p>
-                <strong>Libellé:</strong> {selected.libcrit}
-              </p>
-              <p>
-                <strong>Désignation:</strong> {selected.designlib}
-              </p>
-              <p>
-                <strong>Créé le:</strong> {selected.created_at}
-              </p>
-              <p>
-                <strong>Mis à jour le:</strong> {selected.updated_at}
-              </p>
+              <p><strong>ID:</strong> {selected.id}</p>
+              <p><strong>note:</strong> {selected.nt}</p>
+              <p><strong>appreciation:</strong> {selected.appreciations}</p>
+              <p><strong>Créé le:</strong> {selected.created_at}</p>
+              <p><strong>Mis à jour le:</strong> {selected.updated_at}</p>
             </div>
           )}
         </Modal.Body>
@@ -410,4 +371,4 @@ const Critere = () => {
   );
 };
 
-export default Critere;
+export default Notes;

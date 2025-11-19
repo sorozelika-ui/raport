@@ -8,7 +8,7 @@ class ANNEE extends Model
 {
    protected $table='années';
    
-   protected $fillable = [ 'liban'];
+   protected $fillable = ['liban'];
     protected $timestamp=true; 
 }
 

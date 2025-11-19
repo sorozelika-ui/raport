@@ -10,7 +10,7 @@ class type_prestatairecontroller extends Controller
     {
         $query = type_prestataire::query();
 
-        / Recherche
+        // Recherche
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
             $query->where('nom', 'LIKE', "%$search%")

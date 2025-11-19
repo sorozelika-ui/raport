@@ -9,7 +9,7 @@ import axios from "axios";
 
 const { Column, HeaderCell, Cell } = Table;
 
-const Critere = () => {
+const Annee = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -24,8 +24,7 @@ const Critere = () => {
 
   // Form
   const [form, setForm] = useState({
-    libcrit: "",
-    designlib: "",
+    liban: "",
   });
 
   // Recherche
@@ -35,7 +34,7 @@ const Critere = () => {
   const fetchCritere = () => {
     setLoading(true);
     axios
-      .get("http://127.0.0.1:8000/api/criteres")
+      .get("http://127.0.0.1:8000/api/ANNEE")
       .then((res) => {
         setData(Array.isArray(res.data) ? res.data : res.data.data);
       })
@@ -44,13 +43,13 @@ const Critere = () => {
   };
 
   useEffect(() => {
-    fetchCritere();
+    fetchAnnee();
   }, []);
 
   // Rechercher les critères
   const handleSearch = () => {
     axios
-      .get(`http://127.0.0.1:8000/api/criteres?search=${search}`)
+      .get(`http://127.0.0.1:8000/api/ANNEE?search=${search}`)
       .then((res) => setData(res.data))
       .catch((err) => console.log(err));
   };
@@ -58,10 +57,10 @@ const Critere = () => {
   // Add
   const handleAdd = () => {
     axios
-      .post("http://127.0.0.1:8000/api/criteres", form)
+      .post("http://127.0.0.1:8000/api/ANNEE", form)
       .then(() => {
         setOpenAdd(false);
-        fetchCritere();
+        fetchAnnee();
       })
       .catch(console.log);
   };
@@ -69,10 +68,10 @@ const Critere = () => {
   // Edit
   const handleEdit = () => {
     axios
-      .put(`http://127.0.0.1:8000/api/criteres/${selected.id}`, form)
+      .put(`http://127.0.0.1:8000/api/ANNEE/${selected.id}`, form)
       .then(() => {
         setOpenEdit(false);
-        fetchCritere();
+        fetchAnnee();
       })
       .catch(console.log);
   };
@@ -80,10 +79,10 @@ const Critere = () => {
   // Delete
   const handleDelete = () => {
     axios
-      .delete(`http://127.0.0.1:8000/api/criteres/${selected.id}`)
+      .delete(`http://127.0.0.1:8000/api/ANNEE/${selected.id}`)
       .then(() => {
         setOpenDelete(false);
-        fetchCritere();
+        fetchAnnee();
       })
       .catch(console.log);
   };
@@ -110,7 +109,7 @@ const Critere = () => {
           marginBottom: "25px",
         }}
       >
-        Liste des critères
+        Liste des années
       </h2>
 
       {/* Bouton SEARCH */}
@@ -123,8 +122,8 @@ const Critere = () => {
         }}
       >
         <input
-          type="text"
-          placeholder="Rechercher un critère..."
+          type="number"
+          placeholder="Rechercher une année ..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           style={{
@@ -164,11 +163,11 @@ const Critere = () => {
             padding: "8px 14px",
           }}
           onClick={() => {
-            setForm({ libcrit: "", designlib: "" });
+            setForm({ liban: "" });
             setOpenAdd(true);
           }}
         >
-          Ajouter un critère
+          Ajouter une année
         </Button>
       </div>
 
@@ -217,20 +216,7 @@ const Critere = () => {
             >
               Libellé
             </HeaderCell>
-            <Cell dataKey="libcrit" />
-          </Column>
-
-          <Column flexGrow={1} minWidth={200}>
-            <HeaderCell
-              style={{
-                background: "orange",
-                color: "white",
-                fontWeight: "bold",
-              }}
-            >
-              Désignation
-            </HeaderCell>
-            <Cell dataKey="designlib" />
+            <Cell dataKey="liban" />
           </Column>
 
           <Column width={180} fixed="right">
@@ -307,17 +293,13 @@ const Critere = () => {
       {/* Modal Ajouter */}
       <Modal open={openAdd} onClose={() => setOpenAdd(false)}>
         <Modal.Header>
-          <Modal.Title>Ajouter un critère</Modal.Title>
+          <Modal.Title>Ajouter une année</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form fluid onChange={(v) => setForm(v)} formValue={form}>
             <Form.Group>
-              <Form.ControlLabel>Libellé</Form.ControlLabel>
-              <Form.Control name="libcrit" />
-            </Form.Group>
-            <Form.Group>
-              <Form.ControlLabel>Désignation</Form.ControlLabel>
-              <Form.Control name="designlib" />
+              <Form.ControlLabel>liban</Form.ControlLabel>
+              <Form.Control name="liban" />
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -334,17 +316,13 @@ const Critere = () => {
       {/* Modal Modifier */}
       <Modal open={openEdit} onClose={() => setOpenEdit(false)}>
         <Modal.Header>
-          <Modal.Title>Modifier le critère</Modal.Title>
+          <Modal.Title>Modifier l'année</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form fluid onChange={(v) => setForm(v)} formValue={form}>
             <Form.Group>
               <Form.ControlLabel>Libellé</Form.ControlLabel>
-              <Form.Control name="libcrit" />
-            </Form.Group>
-            <Form.Group>
-              <Form.ControlLabel>Désignation</Form.ControlLabel>
-              <Form.Control name="designlib" />
+              <Form.Control name="liban" />
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -363,7 +341,7 @@ const Critere = () => {
         <Modal.Header>
           <Modal.Title>Supprimer</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Voulez-vous vraiment supprimer ce critère ?</Modal.Body>
+        <Modal.Body>Voulez-vous vraiment supprimer cette année ?</Modal.Body>
         <Modal.Footer>
           <Button color="red" appearance="primary" onClick={handleDelete}>
             Supprimer
@@ -377,7 +355,7 @@ const Critere = () => {
       {/* Modal voir */}
       <Modal open={openView} onClose={() => setOpenView(false)}>
         <Modal.Header>
-          <Modal.Title>Détails du Critère</Modal.Title>
+          <Modal.Title>Détails de l'année</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {selected && (
@@ -386,10 +364,7 @@ const Critere = () => {
                 <strong>ID:</strong> {selected.id}
               </p>
               <p>
-                <strong>Libellé:</strong> {selected.libcrit}
-              </p>
-              <p>
-                <strong>Désignation:</strong> {selected.designlib}
+                <strong>Libellé:</strong> {selected.liban}
               </p>
               <p>
                 <strong>Créé le:</strong> {selected.created_at}
@@ -410,4 +385,4 @@ const Critere = () => {
   );
 };
 
-export default Critere;
+export default Annee;

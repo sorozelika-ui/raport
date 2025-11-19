@@ -11,7 +11,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     // Simuler une connexion
     setTimeout(() => {
       setIsLoading(false);
@@ -32,7 +32,7 @@ const Login = () => {
           transition={{
             duration: 20,
             repeat: Infinity,
-            ease: "linear"
+            ease: "linear",
           }}
           className="absolute -top-20 -left-20 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30"
         />
@@ -44,7 +44,7 @@ const Login = () => {
           transition={{
             duration: 25,
             repeat: Infinity,
-            ease: "linear"
+            ease: "linear",
           }}
           className="absolute -bottom-20 -right-20 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30"
         />
@@ -56,7 +56,7 @@ const Login = () => {
           transition={{
             duration: 15,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "easeInOut",
           }}
           className="absolute top-1/2 left-1/2 w-96 h-96 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30"
         />
@@ -196,7 +196,11 @@ const Login = () => {
                   <>
                     <motion.div
                       animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      transition={{
+                        duration: 1,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }}
                       className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
                     />
                     <span>Connexion en cours...</span>
@@ -237,7 +241,7 @@ const Login = () => {
               <p className="text-gray-600 text-sm">
                 Vous n'avez pas de compte ?{" "}
                 <a
-                  href="#"
+                  href="/inscription"
                   className="text-blue-600 hover:text-blue-800 font-semibold transition-colors"
                 >
                   Créer un compte

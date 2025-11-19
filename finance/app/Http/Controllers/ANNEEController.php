@@ -7,9 +7,20 @@ use Illuminate\Http\Request;
 use App\Models\ANNEE;
 class ANNEEController extends Controller
 {
-  public function index()
+  public function index(Request $request)
     {
-        return response()->json(ANNEE::all());
+        $query =ANNEE::query();
+
+        //Recherche
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where('liban', 'LIKE', "%$search%");   
+        }
+
+         //Tri descendante pour avoir le dernier ajout en haut
+        $critere = $query->orderBy('id', 'desc')->get();
+
+        //return response()->json(ANNEE::all());
     }
    public function store(Request $request)
     {

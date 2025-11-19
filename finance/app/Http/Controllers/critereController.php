@@ -9,21 +9,21 @@ class CritereController extends Controller
 {
     public function index(Request $request)
     {
-        $query =criteres::query();
+        $query =critere::query();
 
-        /*Recherche
+        //Recherche
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
             $query->where('libcrit', 'LIKE', "%$search%")
-                  ->orWhere('designlib', 'LIKE', "%$search%")
+                  ->orWhere('designlib', 'LIKE', "%$search%");
             
         }
 
-        // Tri descendante pour avoir le dernier ajout en haut
-        $prestataires = $query->orderBy('id', 'desc')->get();
+         //Tri descendante pour avoir le dernier ajout en haut
+        $critere = $query->orderBy('id', 'desc')->get();
 
-        return response()->json($prestataires);*/
-        return response()->json(Critere::all());
+        return response()->json($critere);
+       // return response()->json(Critere::all());
     }
 
     public function store(Request $request)
