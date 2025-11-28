@@ -31,7 +31,7 @@ const Annee = () => {
   const [search, setSearch] = useState("");
 
   // Fetch API data
-  const fetchCritere = () => {
+  const fetchAnnee = () => {
     setLoading(true);
     axios
       .get("http://127.0.0.1:8000/api/ANNEE")
@@ -46,7 +46,7 @@ const Annee = () => {
     fetchAnnee();
   }, []);
 
-  // Rechercher les critères
+  // Rechercher les prestataires
   const handleSearch = () => {
     axios
       .get(`http://127.0.0.1:8000/api/ANNEE?search=${search}`)
@@ -122,7 +122,7 @@ const Annee = () => {
         }}
       >
         <input
-          type="number"
+          type="text"
           placeholder="Rechercher une année ..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -179,11 +179,11 @@ const Annee = () => {
             paddingTop: "80px",
           }}
         >
-          <Loader size="lg" content="Chargement en cours..." />
+          <Loader size="lg" content="Chargement..." />
         </div>
       ) : (
         <Table
-          height={400}
+          height={300}
           data={data}
           bordered
           cellBordered
@@ -193,10 +193,10 @@ const Annee = () => {
             boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1)",
           }}
         >
-          <Column width={80} align="center" fixed>
+          <Column width={70} align="center" fixed>
             <HeaderCell
               style={{
-                background: "orange",
+                background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
                 color: "white",
                 fontWeight: "bold",
               }}
@@ -206,15 +206,15 @@ const Annee = () => {
             <Cell dataKey="id" />
           </Column>
 
-          <Column flexGrow={1} minWidth={200}>
+          <Column flexGrow={1} minWidth={50}>
             <HeaderCell
               style={{
-                background: "orange",
+                background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
                 color: "white",
                 fontWeight: "bold",
               }}
             >
-              Libellé
+              libellé
             </HeaderCell>
             <Cell dataKey="liban" />
           </Column>
@@ -222,7 +222,7 @@ const Annee = () => {
           <Column width={180} fixed="right">
             <HeaderCell
               style={{
-                background: "orange",
+                background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
                 color: "white",
                 fontWeight: "bold",
               }}
@@ -298,7 +298,7 @@ const Annee = () => {
         <Modal.Body>
           <Form fluid onChange={(v) => setForm(v)} formValue={form}>
             <Form.Group>
-              <Form.ControlLabel>liban</Form.ControlLabel>
+              <Form.ControlLabel>libellé</Form.ControlLabel>
               <Form.Control name="liban" />
             </Form.Group>
           </Form>
@@ -321,7 +321,7 @@ const Annee = () => {
         <Modal.Body>
           <Form fluid onChange={(v) => setForm(v)} formValue={form}>
             <Form.Group>
-              <Form.ControlLabel>Libellé</Form.ControlLabel>
+              <Form.ControlLabel>libellé</Form.ControlLabel>
               <Form.Control name="liban" />
             </Form.Group>
           </Form>
@@ -364,7 +364,7 @@ const Annee = () => {
                 <strong>ID:</strong> {selected.id}
               </p>
               <p>
-                <strong>Libellé:</strong> {selected.liban}
+                <strong>Nom:</strong> {selected.liban}
               </p>
               <p>
                 <strong>Créé le:</strong> {selected.created_at}

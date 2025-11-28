@@ -4,171 +4,132 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\affichage;
-use App\Models\ANNEE;
-use App\Models\Critere;
-use App\Models\type_prestataire;
 use App\Models\bareme;
 use App\Models\note;
+use App\Models\critere;
 
-class affichagecontroller extends Controller
-
-
+class affichageController extends Controller
 {
-    //  STORE 
-    public function store()
+    // Récupérer les critères selon type + année
+    public function getCriteres()
     {
-        $evaluations = affichage::with([
-            'type_prestataire',
-            'critere',
-            'note',
-            'annee'
-        ])->get();
+        // On suppose que chaque critère est associé à un type de prestataire pour l'année
+    $criteres = criteres::all(); // ou filtrer selon tes règles si tu as une table pivot
+    return response()->json($criteres);
 
-        $Regrouper = $evaluations->groupBy(function ($item) {
-            return $item->type_prestataire_id . '-' . $item->années_id;
-        });
+        /*$criteres = critere::whereIn('id', function ($query) use ($typePrestataireId, $anneeId) {
+            $query->select('criteres_id')
+                  ->from('evaluations')
+                  ->where('type_prestataire_id', $typePrestataireId)
+                  ->where('années_id', $anneeId);
+        })->get();
 
-        $resultats = $Regrouper->map(function ($items) {
-            $prestataire = $items->first()->type_prestataire;
-            $annee = $items->first()->ANNEE;
-
-            $evaluationsList = $items->map(function ($evalu) {
-                return [
-                    'critere' => $evalu->critere->libcrit,
-                    'note' => floatval($evalu->note->nt),
-                ];
-            });
-
-            $moyenne = $evaluationsList->avg('note');
-            $appreciation = $this->calculerAppreciation($moyenne);
-
-            return [
-                'id' => $items->first()->id,
-                'type_prestataire' => $prestataire->nom,
-                'specialite' => $prestataire->specialite,
-                'annees' => $annee->liban,
-                'evaluations' => $evaluationsList,
-                'moyenne' => round($moyenne, 2),
-                'appreciation' => $appreciation,
-            ];
-        })->values();
-
-        return response()->json($resultats);
+        return response()->json($criteres);*/
     }
 
-    //  INDEX 
-     public function index(Request $request)
+    // Enregistrement
+    public function store(Request $request)
     {
-        $validated = $request->validate([
-            'type_prestataire_id' => 'required|exists:type_prestataire,id',
-            'années_id' => 'required|exists:années,id',
-            'evaluations' => 'required|array|min:1',
-            'evaluations.*.criteres_id' => 'required|exists:criteres,id',
-            'evaluations.*.note_id' => 'required|exists:note,id',
+
+                $request->validate([
+        'type_prestataire_id' => 'required',
+        'annees_id' => 'required',
+        'notes' => 'required|array'
+    ]);
+
+    $total = 0;
+    $count = 0;
+
+    foreach ($request->notes as $item) {
+        $critereId = $item['criteres_id'];
+        $noteId = $item['note_id'];
+
+        $noteObj = note::find($noteId);
+
+        if (!$noteObj) {
+            return response()->json(['error' => "Note invalide"], 422);
+        }
+
+        if ($noteObj->nt < 5 && empty($item['justification'])) {
+            return response()->json([
+                'error' => 'Justification obligatoire pour les notes < 5'
+            ], 422);
+        }
+
+        affichage::create([
+            'type_prestataire_id' => $request->type_prestataire_id,
+            'criteres_id'  => $critereId,
+            'note_id'      => $noteId,
+            'années_id'    => $request->annees_id,
+            'justification' => $item['justification'] ?? null
+        ]);
+
+        $total += $noteObj->nt;
+        $count++;
+    }
+
+    $moyenne = $total / $count;
+
+    // Trouver appréciation via barème
+    $bareme = bareme::where('nin_note', '<=', $moyenne)
+                    ->where('max_note', '>=', $moyenne)
+                    ->first();
+
+    return response()->json([
+        'message' => 'Évaluation enregistrée',
+        'moyenne' => round($moyenne, 2),
+        'appréciation_système' => $bareme->appreciation ?? "Non définie"
+    ]);
+    
+       /* $request->validate([
+            'type_prestataire_id' => 'required',
+            'annees_id' => 'required',
+            'notes' => 'required|array'
         ]);
 
         $total = 0;
-        $count = count($validated['evaluations']);
-        $details = [];
+        $count = 0;
 
-        foreach ($validated['evaluations'] as $evalu) {
-            $note = note::find($evalu['note_id']);
-            $critere = Critere::find($evalu['criteres_id']);
+        foreach ($request->notes as $critereId => $data) {
 
-            $total += (float) $note->nt;
+            $noteId = $data['note_id'];
+            $noteObj = note::find($noteId);
 
-            $details[] = [
-                'critere' => $critere->libcrit,
-                'note' => (float) $note->nt,
-            ];
+            if (!$noteObj) {
+                return response()->json(['error' => "Note invalide"], 422);
+            }
 
+            // Si nt < 5
+            if ($noteObj->nt < 5 && empty($data['justification'])) {
+                return response()->json([
+                    'error' => 'Justification obligatoire pour les notes < 5'
+                ], 422);
+            }
+
+            // Enregistrement
             affichage::create([
-                'type_prestataire_id' => $validated['type_prestataire_id'],
-                'criteres_id' => $evalu['criteres_id'],
-                'note_id' => $evalu['note_id'],
-                'années_id' => $validated['années_id'],
+                'type_prestataire_id' => $request->type_prestataire_id,
+                'criteres_id'  => $critereId,
+                'note_id'      => $noteId,
+                'années_id'    => $request->annees_id,
+                'justification' => $data['justification'] ?? null
             ]);
+
+            $total += $noteObj->nt;
+            $count++;
         }
 
-        $moyenne = round($total / $count, 2);
-        $appreciation = $this->calculerAppreciation($moyenne);
+        $moyenne = $total / $count;
 
-        $prestataire = type_prestataire::find($validated['type_prestataire_id']);
-        $annee = ANNEE::find($validated['années_id']);
+        // Trouver appréciation via barème
+        $bareme = bareme::where('nin_note', '<=', $moyenne)
+                        ->where('max_note', '>=', $moyenne)
+                        ->first();
 
         return response()->json([
-            'type_prestataire' => $prestataire->nom,
-            'specialite' => $prestataire->specialite,
-            'annees' => $annee->liban,
-            'evaluations' => $details,
-            'moyenne' => $moyenne,
-            'appreciation' => $appreciation,
-        ]);
+            'message' => 'Évaluation enregistrée',
+            'moyenne' => round($moyenne, 2),
+            'appréciation_système' => $bareme->appreciation ?? "Non définie"
+        ]);*/
     }
-
-    // ===================== MÉTHODE DÉDIÉE =====================
-    private function calculerAppreciation($moyenne)
-    {
-        if ($moyenne < 10) {
-            return 'Faible';
-        } elseif ($moyenne >= 10 && $moyenne < 15) {
-            return 'Bon';
-        } elseif ($moyenne >= 15 && $moyenne < 18) {
-            return 'Très Bon';
-        } else {
-            return 'Excellent';
-        }
-    }
-    
-    public function show($id)
-    {
-        $evaluation = affichage::with(['type_prestataire', 'criteres', 'note', 'années'])->find($id);
-
-        if (!$evaluation) {
-            return response()->json(['message' => 'Évaluation non trouvée ']);
-        }
-
-        return response()->json($evaluation);
-    }
-
-    //Modifier une évaluation
-    public function update(Request $request, $id)
-    {
-        $evaluation = affichage::find($id);
-
-        if (!$evaluation) {
-            return response()->json(['message' => 'Évaluation non trouvée ']);
-        }
-
-        $validated = $request->validate([
-            'type_prestataire_id' => 'required|exists:type_prestataire,id',
-            'criteres_id' => 'required|exists:criteres,id',
-            'note_id' => 'required|exists:note,id',
-            'années_id' => 'required|exists:années,id',
-        ]);
-
-        $evaluation->update($validated);
-
-        return response()->json([
-            'message' => 'Évaluation mise à jour avec succès ',
-            'data' => $evaluation
-        ]);
-    }
-
-
-    
-
-    //  Supprimer une évaluation
-    public function destroy($id)
-    {
-        $evaluation = affichage::find($id);
-
-    
-            return response()->json(['message' => 'Évaluation non trouvée '],);
-
-        $evaluation->delete();
-
-        return response()->json(['message' => 'Évaluation supprimée avec succès ']);
-    }
-    
 }

@@ -27,6 +27,9 @@ const Prestataires = () => {
     nom: "",
     specialite: "",
     addresse: "",
+    email: "",
+    telephone: "",
+    password:"",
   });
 
   // Recherche
@@ -69,13 +72,34 @@ const Prestataires = () => {
 
   // Edit
   const handleEdit = () => {
-    axios
-      .put(`http://127.0.0.1:8000/api/prestataire/${selected.id}`, form)
-      .then(() => {
-        setOpenEdit(false);
-        fetchPrestataires();
-      })
-      .catch(console.log);
+      // Vérifier que les champs sont remplis
+  if (!form.nom ||!form.specialite ||!form.addresse ||!form.email ||!form.telephone ||!form.password)
+  {
+    alert("Veuillez remplir tous les champs");
+    return;
+  }
+
+  // Envoyer uniquement les champs nécessaires
+  const dataToSend = {
+    nom: form.nom,
+    specialite: form.specialite,
+    addresse: form.addresse,
+    email: form.email,
+    telephone: form.telephone,
+    password: form.password
+  };
+
+  axios
+    .put(`http://127.0.0.1:8000/api/prestataire/${selected.id}`, dataToSend)
+    .then((res) => {
+      console.log("Succès:", res.data);
+      setOpenEdit(false);
+      fetchPrestataires();
+    })
+    .catch((err) => {
+      console.error("Erreur:", err.response?.data);
+      alert("Erreur lors de la modification: " + (err.response?.data?.message || err.message));
+    });
   };
 
   // Delete
@@ -165,7 +189,13 @@ const Prestataires = () => {
             padding: "8px 14px",
           }}
           onClick={() => {
-            setForm({ nom: "", specialite: "", addresse: "" });
+            setForm({
+              nom: "",
+              specialite: "",
+              addresse: "",
+              email: "",
+              telephone: "",
+            });
             setOpenAdd(true);
           }}
         >
@@ -185,7 +215,7 @@ const Prestataires = () => {
         </div>
       ) : (
         <Table
-          height={400}
+          height={700}
           data={data}
           bordered
           cellBordered
@@ -195,7 +225,7 @@ const Prestataires = () => {
             boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1)",
           }}
         >
-          <Column width={70} align="center" fixed>
+          <Column width={50} align="center" fixed>
             <HeaderCell
               style={{
                 background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
@@ -208,7 +238,7 @@ const Prestataires = () => {
             <Cell dataKey="id" />
           </Column>
 
-          <Column flexGrow={1} minWidth={150}>
+          <Column flexGrow={1} minWidth={60}>
             <HeaderCell
               style={{
                 background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
@@ -221,7 +251,7 @@ const Prestataires = () => {
             <Cell dataKey="nom" />
           </Column>
 
-          <Column flexGrow={1} minWidth={150}>
+          <Column flexGrow={1} minWidth={60}>
             <HeaderCell
               style={{
                 background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
@@ -234,7 +264,7 @@ const Prestataires = () => {
             <Cell dataKey="specialite" />
           </Column>
 
-          <Column flexGrow={1} minWidth={200}>
+          <Column flexGrow={1} minWidth={70}>
             <HeaderCell
               style={{
                 background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
@@ -245,6 +275,30 @@ const Prestataires = () => {
               Adresse
             </HeaderCell>
             <Cell dataKey="addresse" />
+          </Column>
+          <Column width={180} align="center" fixed>
+            <HeaderCell
+              style={{
+                background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
+                color: "white",
+                fontWeight: "bold",
+              }}
+            >
+              email
+            </HeaderCell>
+            <Cell dataKey="email" />
+          </Column>
+          <Column width={100} align="center" fixed>
+            <HeaderCell
+              style={{
+                background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
+                color: "white",
+                fontWeight: "bold",
+              }}
+            >
+              telephone
+            </HeaderCell>
+            <Cell dataKey="telephone" />
           </Column>
 
           <Column width={180} fixed="right">
@@ -288,7 +342,15 @@ const Prestataires = () => {
                     }}
                     onClick={() => {
                       setSelected(rowData);
-                      setForm(rowData);
+                      // Ne copier que les champs nécessaires
+                      setForm({
+                        nom: rowData.nom || "",
+                        specialite: rowData.specialite || "",
+                        addresse: rowData.addresse || "",
+                        email: rowData.email || "",
+                        telephone: rowData.telephone || "",
+                        password: rowData.password || "",
+                      });
                       setOpenEdit(true);
                     }}
                   >
@@ -337,6 +399,18 @@ const Prestataires = () => {
               <Form.ControlLabel>Adresse</Form.ControlLabel>
               <Form.Control name="addresse" />
             </Form.Group>
+            <Form.Group>
+              <Form.ControlLabel>email</Form.ControlLabel>
+               <Form.Control name="email" />
+            </Form.Group> 
+            <Form.Group>
+              <Form.ControlLabel>telephone</Form.ControlLabel>
+              <Form.Control name="telephone" />
+            </Form.Group>
+            <Form.Group>
+              <Form.ControlLabel>password</Form.ControlLabel>
+              <Form.Control name="password" type="password" />
+            </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
@@ -367,6 +441,18 @@ const Prestataires = () => {
             <Form.Group>
               <Form.ControlLabel>Adresse</Form.ControlLabel>
               <Form.Control name="addresse" />
+            </Form.Group>
+            <Form.Group>
+              <Form.ControlLabel>email</Form.ControlLabel>
+               <Form.Control name="email" />
+            </Form.Group> 
+            <Form.Group>
+              <Form.ControlLabel>telephone</Form.ControlLabel>
+              <Form.Control name="telephone" />
+            </Form.Group>
+                <Form.Group>
+              <Form.ControlLabel>password</Form.ControlLabel>
+              <Form.Control name="password" type="password" />
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -415,6 +501,15 @@ const Prestataires = () => {
               </p>
               <p>
                 <strong>Adresse:</strong> {selected.addresse}
+              </p>
+              <p>
+                <strong>email:</strong> {selected.email}
+              </p>
+              <p>
+                <strong>telephone:</strong> {selected.telephone}
+              </p>
+              <p>
+                <strong>password:</strong> {selected.password}
               </p>
               <p>
                 <strong>Créé le:</strong> {selected.created_at}

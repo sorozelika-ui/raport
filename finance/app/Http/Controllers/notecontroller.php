@@ -7,15 +7,29 @@ use App\Models\note;
 
 class notecontroller extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(note::all());
+
+        $query = note::query();
+
+        // Recherche
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where('nt', 'LIKE', "%$search%")
+                  ->orWhere('appreciation', 'LIKE', "%$search%");
+        }
+
+        // Tri descendante pour avoir le dernier ajout en haut
+        $note = $query->orderBy('id', 'desc')->get();
+
+        return response()->json($note);
+        //return response()->json(note::all());
     }
 
     public function store(Request $request)
     {
        $request->validate(['nt'=>'required|numeric|min:1|max:20',
-       'appreciation'=>'required|string', 'moyenne'=>'required|float',]);
+       'appreciation'=>'required|string',]);
 
         $note=note::create(['nt'=>$request->nt,
         'appreciation'=>$request->appreciation]);
@@ -24,9 +38,9 @@ class notecontroller extends Controller
             'data' => $note
         ]);
 
-        // Calculer la moyenne des notes
+        /* Calculer la moyenne des notes
          $notes = array_map(function ($r) {
-            return (float) $r['note'];
+            return (float) $r['nt'];
         }, $results);
         $moyenne = count($notes) ? array_sum($notes) / count($notes) : 0;
 
@@ -34,7 +48,7 @@ class notecontroller extends Controller
             'message' => 'Évaluations enregistrées avec succès',
             'moyenne' => number_format($moyenne, 2),
             'details' => $results
-        ]);
+        ]);*/
     }
     
     
@@ -50,28 +64,27 @@ class notecontroller extends Controller
     }
 
     
-    public function update(Request $request, $id)
-    {
-        $note = note::find($id);
+   public function update(Request $request, $id)
+{
+    $note = note::find($id);
 
-        if (!$note) {
-            return response()->json(['message' => 'note non trouvé']);
-        }
-
-        $validatedData = $request->validate([
-            'nt' => 'required|decimal(5,2)',
-            'appreciation' => 'required|string',
-        ]);
-
-        $note->update($validatedData);
-
-        return response()->json([
-            'message' => 'note mis à jour avec succès',
-            'data' => $note
-        ]);
+    if (!$note) {
+        return response()->json(['message' => 'note non trouvé']);
     }
 
-    
+    $validatedData = $request->validate([
+        'nt' => 'required|numeric|min:1|max:20',
+        'appreciation' => 'required|string',
+    ]);
+
+    $note->update($validatedData);
+
+    return response()->json([
+        'message' => 'note mis à jour avec succès',
+        'data' => $note
+    ]);
+}
+
     public function destroy($id)
     {
         $note = note::find($id);

@@ -1,23 +1,41 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Lock, Eye, EyeOff, LogIn, Shield } from "lucide-react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError("");
 
-    // Simuler une connexion
-    setTimeout(() => {
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/api/login", {
+        email,
+        password,
+      });
+
+      // Stocker les informations de l'utilisateur dans localStorage
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+      localStorage.setItem("token", response.data.token);
+
+      // Redirection vers le dashboard
+      navigate("/dashboard");
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "Email ou mot de passe incorrect"
+      );
+    } finally {
       setIsLoading(false);
-      console.log("Connexion avec:", { email, password });
-      // Redirection ou logique de connexion ici
-    }, 2000);
+    }
   };
 
   return (
@@ -104,6 +122,17 @@ const Login = () => {
             className="p-8"
           >
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Message d'erreur */}
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm"
+                >
+                  {error}
+                </motion.div>
+              )}
+
               {/* Champ Email */}
               <motion.div
                 initial={{ x: -50, opacity: 0 }}
@@ -241,7 +270,7 @@ const Login = () => {
               <p className="text-gray-600 text-sm">
                 Vous n'avez pas de compte ?{" "}
                 <a
-                  href="/inscription"
+                  href="/inscrire"
                   className="text-blue-600 hover:text-blue-800 font-semibold transition-colors"
                 >
                   Créer un compte

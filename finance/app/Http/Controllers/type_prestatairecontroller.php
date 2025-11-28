@@ -8,14 +8,17 @@ class type_prestatairecontroller extends Controller
 {
     public function index(Request $request)
     {
-        $query = type_prestataire::query();
+        $query =type_prestataire::query();
 
         // Recherche
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
             $query->where('nom', 'LIKE', "%$search%")
                   ->orWhere('specialite', 'LIKE', "%$search%")
-                  ->orWhere('addresse', 'LIKE', "%$search%");
+                  ->orWhere('addresse', 'LIKE', "%$search%")
+                  ->orWhere('email', 'LIKE', "%$search%")
+                   ->orWhere('telephone', 'LIKE', "%$search%")
+                  ->orWhere('password', 'LIKE', "%$search%");
         }
 
         // Tri descendante pour avoir le dernier ajout en haut
@@ -27,11 +30,11 @@ class type_prestatairecontroller extends Controller
 
     public function store(Request $request)
     {
-       $request->validate(['nom'=>'required|string',
-       'specialite'=>'required|string','addresse'=>'required|string',]);
+       $request->validate(['nom'=>'required|string','specialite'=>'required|string','addresse'=>'required|string',
+       'email'=>'required|string','password'=>'required|string','telephone'=>'required|string',]);
 
-        $type=type_prestataire::create(['nom'=>$request->nom,
-      'specialite'=>$request->specialite,'addresse'=>$request->addresse]);
+        $type=type_prestataire::create(['nom'=>$request->nom,'specialite'=>$request->specialite,'addresse'=>$request->addresse,'email'=>$request->email,
+      'password'=>$request->password,'telephone'=>$request->telephone]);
         
         return response()->json([
             'message' => 'prestataire ajouté avec succès',
@@ -40,7 +43,7 @@ class type_prestatairecontroller extends Controller
     }
      public function show($id)
     {
-        $type = type_prestataire::find($id);
+        $type =type_prestataire::find($id);
 
         if (!$type) {
             return response()->json(['message' => 'prestataire non trouvé'], 404);
@@ -52,16 +55,14 @@ class type_prestatairecontroller extends Controller
    
     public function update(Request $request, $id)
     {
-        $type = type_prestataire::find($id);
+        $type =type_prestataire::find($id);
 
         if (!$type) {
             return response()->json(['message' => 'prestataire non trouvé']);
         }
 
-        $validatedData = $request->validate([
-            'nom' => 'required|string',
-            'specialite' => 'required|string',
-            'addresse' => 'required|string',
+        $validatedData = $request->validate(['nom' => 'required|string','specialite' => 'required|string','addresse' => 'required|string',
+         'email' => 'required|string','password' => 'required|string','telephone' => 'required|string',
         ]);
 
         $type->update($validatedData);
@@ -75,7 +76,7 @@ class type_prestatairecontroller extends Controller
    
     public function destroy($id)
     {
-        $type = type_prestataire::find($id);
+        $type =type_prestataire::find($id);
 
         if (!$type) {
             return response()->json(['message' => 'prestataire non trouvé']);

@@ -1,31 +1,76 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import "rsuite/dist/rsuite.min.css";
-import "./App.css";
-
-// Pages
-import Prestataires from "./pages/prestataires";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
+import Inscription from "./pages/Inscription";
 import Critere from "./pages/Critere";
-import Notes from "./pages/Notes";
 import Annee from "./pages/Annee";
+import Notes from "./pages/Notes";
+import Evaluation from "./pages/Evaluation";
+import Prestataires from "./pages/prestataires";
+
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
-        {/* Page principale du Dashboard */}
-        <Route path="/" element={<Dashboard />} />
-
-        {/* Sous-pages */}
-
-        <Route path="/prestataires" element={<Prestataires />} />
+        {/* Pages sans Layout (Login et Inscription) */}
         <Route path="/login" element={<Login />} />
-        <Route path="/critere" element={<Critere />} />
-        <Route path="/note" element={<Notes />} />
-        <Route path="/annee" element={<Annee />} />
+        <Route path="/inscription" element={<Inscription />} />
+
+        {/* Pages avec Layout */}
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        <Route
+          path="/dashboard"
+          element={
+            <Layout>
+              <Dashboard />
+            </Layout>
+          }
+        />
+        <Route
+          path="/prestataires"
+          element={
+            <Layout>
+              <Prestataires />
+            </Layout>
+          }
+        />
+        <Route
+          path="/critere"
+          element={
+            <Layout>
+              <Critere />
+            </Layout>
+          }
+        />
+        <Route
+          path="/annee"
+          element={
+            <Layout>
+              <Annee />
+            </Layout>
+          }
+        />
+        <Route
+          path="/note"
+          element={
+            <Layout>
+              <Notes />
+            </Layout>
+          }
+        />
+        <Route
+          path="/evaluation"
+          element={
+            <Layout>
+              <Evaluation />
+            </Layout>
+          }
+        />
+        
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 
