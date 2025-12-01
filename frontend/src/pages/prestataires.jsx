@@ -29,7 +29,7 @@ const Prestataires = () => {
     addresse: "",
     email: "",
     telephone: "",
-    password:"",
+    password: "",
   });
 
   // Recherche
@@ -72,34 +72,43 @@ const Prestataires = () => {
 
   // Edit
   const handleEdit = () => {
-      // Vérifier que les champs sont remplis
-  if (!form.nom ||!form.specialite ||!form.addresse ||!form.email ||!form.telephone ||!form.password)
-  {
-    alert("Veuillez remplir tous les champs");
-    return;
-  }
+    // Vérifier que les champs sont remplis
+    if (
+      !form.nom ||
+      !form.specialite ||
+      !form.addresse ||
+      !form.email ||
+      !form.telephone ||
+      !form.password
+    ) {
+      alert("Veuillez remplir tous les champs");
+      return;
+    }
 
-  // Envoyer uniquement les champs nécessaires
-  const dataToSend = {
-    nom: form.nom,
-    specialite: form.specialite,
-    addresse: form.addresse,
-    email: form.email,
-    telephone: form.telephone,
-    password: form.password
-  };
+    // Envoyer uniquement les champs nécessaires
+    const dataToSend = {
+      nom: form.nom,
+      specialite: form.specialite,
+      addresse: form.addresse,
+      email: form.email,
+      telephone: form.telephone,
+      password: form.password,
+    };
 
-  axios
-    .put(`http://127.0.0.1:8000/api/prestataire/${selected.id}`, dataToSend)
-    .then((res) => {
-      console.log("Succès:", res.data);
-      setOpenEdit(false);
-      fetchPrestataires();
-    })
-    .catch((err) => {
-      console.error("Erreur:", err.response?.data);
-      alert("Erreur lors de la modification: " + (err.response?.data?.message || err.message));
-    });
+    axios
+      .put(`http://127.0.0.1:8000/api/prestataire/${selected.id}`, dataToSend)
+      .then((res) => {
+        console.log("Succès:", res.data);
+        setOpenEdit(false);
+        fetchPrestataires();
+      })
+      .catch((err) => {
+        console.error("Erreur:", err.response?.data);
+        alert(
+          "Erreur lors de la modification: " +
+            (err.response?.data?.message || err.message)
+        );
+      });
   };
 
   // Delete
@@ -122,16 +131,15 @@ const Prestataires = () => {
         marginBottom: "35px",
         paddingBottom: "20px",
         borderBottom: "2px solid transparent",
-        borderImage: "linear-gradient(90deg, #3b82f6, #8b5cf6) 1",
+        borderImage: "linear-gradient(90deg, #3b82f6, #8b5cf6) ",
       }}
     >
       <h2
         style={{
           fontSize: "32px",
           fontWeight: "bold",
-          background: "linear-gradient(135deg, #1e40af 0%, #7c3aed 100%)",
+          backgroundcolor: "rgba(59, 130, 246, 0.2)",
           WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
           marginBottom: "25px",
         }}
       >
@@ -183,7 +191,7 @@ const Prestataires = () => {
         <Button
           appearance="primary"
           style={{
-            backgroundColor: "#1e40af",
+            backgroundColor: "rgba(59, 130, 246, 0.2)",
             color: "white",
             borderRadius: "6px",
             padding: "8px 14px",
@@ -401,8 +409,8 @@ const Prestataires = () => {
             </Form.Group>
             <Form.Group>
               <Form.ControlLabel>email</Form.ControlLabel>
-               <Form.Control name="email" />
-            </Form.Group> 
+              <Form.Control name="email" />
+            </Form.Group>
             <Form.Group>
               <Form.ControlLabel>telephone</Form.ControlLabel>
               <Form.Control name="telephone" />
@@ -444,13 +452,13 @@ const Prestataires = () => {
             </Form.Group>
             <Form.Group>
               <Form.ControlLabel>email</Form.ControlLabel>
-               <Form.Control name="email" />
-            </Form.Group> 
+              <Form.Control name="email" />
+            </Form.Group>
             <Form.Group>
               <Form.ControlLabel>telephone</Form.ControlLabel>
               <Form.Control name="telephone" />
             </Form.Group>
-                <Form.Group>
+            <Form.Group>
               <Form.ControlLabel>password</Form.ControlLabel>
               <Form.Control name="password" type="password" />
             </Form.Group>

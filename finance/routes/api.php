@@ -5,7 +5,8 @@ use App\Http\Controllers\ANNEEController;
 use App\Http\Controllers\type_prestatairecontroller;
 use App\Http\Controllers\evaluationscontroller;
 use App\Http\Controllers\notecontroller;
-use App\Http\Controllers\affichagecontroller;
+use App\Http\Controllers\EvaluationController;
+use App\Http\Controllers\EvaluController;
 use App\Http\Controllers\AuthController;
 
 // Routes d'authentification
@@ -41,11 +42,9 @@ Route::get('/criteres/{typePrestataireId}/{anneeId}', [affichagecontroller::clas
 Route::post('/evaluations', [affichagecontroller::class, 'store']);
 
 
-/*
-Route::get('/evaluer',[affichagecontroller::class,'store']);
-Route::get('/evaluer/{id}',[affichagecontroller::class,'show']);
-Route::post('/evaluer',[affichagecontroller::class,'index']);
-Route::put('/evaluer/{id}',[affichagecontroller::class,'update']);
-Route::delete('/evaluer/{id}',[affichagecontroller::class,'destroy']); */
+Route::get('/evaluations/initial', [EvaluationController::class,'initialData']);
+Route::get('/criteres-by-prestataire/{prestataire}/{annee?}', [EvaluationController::class,'criteresByPrestataire']);
+Route::post('/evaluations/create', [EvaluationController::class,'store']);
+Route::get('/evaluations/summary', [EvaluationController::class,'summary']); //optionnel
 
-
+Route::post('NOTIFICATIONS', [EvaluController::class,'store']);
