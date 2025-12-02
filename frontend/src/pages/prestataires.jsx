@@ -191,7 +191,8 @@ const Prestataires = () => {
         <Button
           appearance="primary"
           style={{
-            backgroundColor: "rgba(59, 130, 246, 0.2)",
+            backgroundColor:
+              "blue",
             color: "white",
             borderRadius: "6px",
             padding: "8px 14px",

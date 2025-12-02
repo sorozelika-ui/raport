@@ -6,7 +6,6 @@ use App\Http\Controllers\type_prestatairecontroller;
 use App\Http\Controllers\evaluationscontroller;
 use App\Http\Controllers\notecontroller;
 use App\Http\Controllers\EvaluationController;
-use App\Http\Controllers\EvaluController;
 use App\Http\Controllers\AuthController;
 
 // Routes d'authentification
@@ -37,14 +36,19 @@ Route::get('/note/{id}', [notecontroller::class,'show']);
 Route::post('/note',[notecontroller::class,'store']);
 Route::put('/note/{id}', [notecontroller::class,'update']);
 Route::delete('/note/{id}', [notecontroller::class,'destroy']);
-
+/*
 Route::get('/criteres/{typePrestataireId}/{anneeId}', [affichagecontroller::class, 'getCriteres']);
 Route::post('/evaluations', [affichagecontroller::class, 'store']);
-
-
 Route::get('/evaluations/initial', [EvaluationController::class,'initialData']);
 Route::get('/criteres-by-prestataire/{prestataire}/{annee?}', [EvaluationController::class,'criteresByPrestataire']);
 Route::post('/evaluations/create', [EvaluationController::class,'store']);
-Route::get('/evaluations/summary', [EvaluationController::class,'summary']); //optionnel
+Route::get('/evaluations/summary', [EvaluationController::class,'summary']); */
 
-Route::post('NOTIFICATIONS', [EvaluController::class,'store']);
+// Récupérer les critères en fonction d'un prestataire et d'une année
+Route::get('/criteres/{typePrestataireId}/{anneeId}', [EvaluationController::class, 'getCriteres']);
+
+// Enregistrer une évaluation (nouvelle API)
+Route::post('/evaluations/create', [EvaluationController::class, 'createEvaluation']);
+
+Route::get('/evaluations/initial', [EvaluationController::class,'initialData']);
+Route::get('/criteres-by-prestataire/{prestataire}/{annee?}', [EvaluationController::class,'criteresByPrestataire']);

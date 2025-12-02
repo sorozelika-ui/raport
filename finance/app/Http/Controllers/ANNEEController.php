@@ -38,7 +38,7 @@ class ANNEEController extends Controller
         $annee =ANNEE::find($id);
 
         if (!$annee) {
-            return response()->json(['message' => 'ANNEE non trouvé']);
+            return response()->json(['message' => 'année non trouvé']);
         }
 
         return response()->json($annee);
@@ -50,7 +50,7 @@ class ANNEEController extends Controller
         $annee = ANNEE::find($id);
 
         if (!$annee) {
-            return response()->json(['message' => 'ANNEE non trouvé']);
+            return response()->json(['message' => 'année non trouvé']);
         }
 
         $validatedData = $request->validate([
@@ -60,7 +60,7 @@ class ANNEEController extends Controller
         $annee->update($validatedData);
 
         return response()->json([
-            'message' => 'ANNEE mis à jour avec succès',
+            'message' => 'année mis à jour avec succès',
             'data' => $annee
         ]);
     }
@@ -71,12 +71,12 @@ class ANNEEController extends Controller
         $annee = ANNEE::find($id);
 
         if (!$annee) {
-            return response()->json(['message' => 'ANNEE non trouvé']);
+            return response()->json(['message' => 'année non trouvé']);
         }
 
         $annee->delete();
 
-        return response()->json(['message' => 'ANNEE supprimé avec succès']);
+        return response()->json(['message' => 'année supprimé avec succès']);
     }
     
 }

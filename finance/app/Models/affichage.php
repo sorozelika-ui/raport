@@ -1,101 +1,39 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Models;
 
-use Illuminate\Http\Request;
-use App\Models\affichage;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
 
-class affichagecontroller extends Controller
+class affichage extends Model
 {
-    public function index(Request $request)
-    {
-        // Charger les relations définies dans ton modèle
-        $evaluations = affichage::with(['type_Prestataire', 'critere', 'note', 'ANNEE'])
-                                 ->orderBy('id', 'desc')
-                                 ->get();
 
-        return response()->json($evaluations);
+    protected $table='evaluations';
+
+
+    protected $fillable = [
+        'type_prestataire_id',
+        'criteres_id',
+        'note_id',
+        'annees_id',
+    ];
+
+    public function prestataire()
+    {
+        return $this->belongsTo(type_prestataire::class, 'type_prestataire_id');
     }
 
-    public function store(Request $request)
+    public function critere()
     {
-        // Validation conforme à tes colonnes
-        $request->validate([
-            'type_prestataire_id' => 'required|exists:type_prestataire,id',
-            'criteres_id' => 'required|exists:criteres,id',
-            'note_id' => 'required|exists:note,id',
-            'années_id' => 'required|exists:années,id',
-        ]);
-
-        $evaluation = affichage::create([
-            'type_prestataire_id' => $request->type_prestataire_id,
-            'criteres_id' => $request->criteres_id,
-            'note_id' => $request->note_id,
-            'années_id' => $request->années_id,
-        ]);
-
-        // Recharger les relations
-        $evaluation->load(['type_Prestataire', 'critere', 'note', 'ANNEE']);
-
-        return response()->json([
-            'message' => 'Évaluation créée avec succès',
-            'data' => $evaluation
-        ], 201);
+        return $this->belongsTo(Critere::class, 'criteres_id');
     }
 
-    public function show($id)
+    public function note()
     {
-        $evaluation = affichage::with(['type_Prestataire', 'critere', 'note', 'ANNEE'])
-                               ->find($id);
-
-        if (!$evaluation) {
-            return response()->json(['message' => 'Évaluation non trouvée'], 404);
-        }
-
-        return response()->json($evaluation);
+        return $this->belongsTo(note::class, 'note_id');
     }
 
-    public function update(Request $request, $id)
+    public function annee()
     {
-        $evaluation = affichage::find($id);
-
-        if (!$evaluation) {
-            return response()->json(['message' => 'Évaluation non trouvée'], 404);
-        }
-
-        $request->validate([
-            'type_prestataire_id' => 'required|exists:type_prestataire,id',
-            'criteres_id' => 'required|exists:criteres,id',
-            'note_id' => 'required|exists:notes,id',
-            'années_id' => 'required|exists:années,id',
-        ]);
-
-        $evaluation->update([
-            'type_prestataire_id' => $request->type_prestataire_id,
-            'criteres_id' => $request->criteres_id,
-            'note_id' => $request->note_id,
-            'années_id' => $request->années_id,
-        ]);
-
-        $evaluation->load(['type_Prestataire', 'critere', 'note', 'ANNEE']);
-
-        return response()->json([
-            'message' => 'Évaluation mise à jour avec succès',
-            'data' => $evaluation
-        ]);
-    }
-
-    public function destroy($id)
-    {
-        $evaluation = affichage::find($id);
-
-        if (!$evaluation) {
-            return response()->json(['message' => 'Évaluation non trouvée'], 404);
-        }
-
-        $evaluation->delete();
-
-        return response()->json(['message' => 'Évaluation supprimée']);
+        return $this->belongsTo(ANNEE::class, 'annees_id');
     }
 }

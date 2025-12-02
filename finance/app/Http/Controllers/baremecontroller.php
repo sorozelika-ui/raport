@@ -25,7 +25,7 @@ class baremecontroller extends Controller
         $annee = bareme::find($id);
 
         if (!$annee) {
-            return response()->json(['message' => 'ANNEE non trouvé']);
+            return response()->json(['message' => 'année non trouvé']);
         }
 
         return response()->json($annee);
