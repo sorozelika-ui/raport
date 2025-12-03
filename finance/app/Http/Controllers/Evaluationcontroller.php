@@ -149,4 +149,14 @@ class EvaluationController extends Controller
             'total' => $evaluations->count()
         ]);
     }
+    public function prestatairesEvalues()
+{
+    // récupérer toutes les évaluations
+    $evaluations = affichage::with(['prestataire', 'critere', 'note', 'annee'])
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    return response()->json($evaluations);
+}
+
 }

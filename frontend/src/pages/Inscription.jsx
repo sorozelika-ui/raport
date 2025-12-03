@@ -18,8 +18,8 @@ const Inscription = () => {
     telephone: "",
     specialite: "",
     addresse: "",
-    password: "",
-    confirmPassword: ""
+    passwordd: "",
+    confirmPasswordd: ""
   });
 
   const handleChange = (e) => {
@@ -36,18 +36,18 @@ const Inscription = () => {
 
     // Validation
     if (!formData.nom || !formData.email || !formData.telephone || 
-        !formData.specialite || !formData.addresse || !formData.password) {
+        !formData.specialite || !formData.addresse || !formData.passwordd) {
       setError("Veuillez remplir tous les champs");
       return;
     }
 
-    if (formData.password !== formData.confirmPassword) {
+    if (formData.passwordd !== formData.confirmPasswordd) {
       setError("Les mots de passe ne correspondent pas");
       return;
     }
 
-    if (formData.password.length < 6) {
-      setError("Le mot de passe doit contenir au moins 6 caractères");
+    if (formData.passwordd.length < 5) {
+      setError("Le mot de passe doit contenir au moins 5 caractères");
       return;
     }
 
@@ -60,7 +60,7 @@ const Inscription = () => {
         telephone: formData.telephone,
         specialite: formData.specialite,
         addresse: formData.addresse,
-        password: formData.password
+        passwordd: formData.passwordd
       });
 
       setSuccess(true);
@@ -248,8 +248,8 @@ const Inscription = () => {
                     <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                     <input
                       type={showPassword ? "text" : "password"}
-                      name="password"
-                      value={formData.password}
+                      name="passwordd"
+                      value={formData.passwordd}
                       onChange={handleChange}
                       className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition-all"
                       placeholder="Minimum 6 caractères"
@@ -273,8 +273,8 @@ const Inscription = () => {
                     <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                     <input
                       type={showConfirmPassword ? "text" : "password"}
-                      name="confirmPassword"
-                      value={formData.confirmPassword}
+                      name="confirmPasswordd"
+                      value={formData.confirmPasswordd}
                       onChange={handleChange}
                       className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition-all"
                       placeholder="Confirmez votre mot de passe"

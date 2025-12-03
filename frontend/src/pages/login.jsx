@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [passwordd, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -20,13 +20,13 @@ const Login = () => {
     try {
       const response = await axios.post("http://127.0.0.1:8000/api/login", {
         email,
-        password,
+        passwordd,
       });
 
       // Stocker les informations de l'utilisateur dans localStorage
       localStorage.setItem("user", JSON.stringify(response.data.user));
       localStorage.setItem("token", response.data.token);
-
+      
       // Redirection vers le dashboard
       navigate("/dashboard");
     } catch (err) {
@@ -172,12 +172,12 @@ const Login = () => {
                   </div>
                   <input
                     type={showPassword ? "text" : "password"}
-                    value={password}
+                    value={passwordd}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
                     required
                     className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition-all duration-300 text-gray-800"
-                  />
+                  />ssss
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}

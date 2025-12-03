@@ -29,7 +29,7 @@ const Prestataires = () => {
     addresse: "",
     email: "",
     telephone: "",
-    password: "",
+    passwordd: "",
   });
 
   // Recherche
@@ -79,7 +79,7 @@ const Prestataires = () => {
       !form.addresse ||
       !form.email ||
       !form.telephone ||
-      !form.password
+      !form.passwordd
     ) {
       alert("Veuillez remplir tous les champs");
       return;
@@ -92,7 +92,7 @@ const Prestataires = () => {
       addresse: form.addresse,
       email: form.email,
       telephone: form.telephone,
-      password: form.password,
+      passwordd: form.passwordd,
     };
 
     axios
@@ -131,7 +131,7 @@ const Prestataires = () => {
         marginBottom: "35px",
         paddingBottom: "20px",
         borderBottom: "2px solid transparent",
-        borderImage: "linear-gradient(90deg, #3b82f6, #8b5cf6) ",
+        borderImage: "rgba(59, 131, 246, 0.2) ",
       }}
     >
       <h2
@@ -192,8 +192,8 @@ const Prestataires = () => {
           appearance="primary"
           style={{
             backgroundColor:
-              "blue",
-            color: "white",
+              "rgba(59, 131, 246, 0.2)",
+            color: "black",
             borderRadius: "6px",
             padding: "8px 14px",
           }}
@@ -224,7 +224,7 @@ const Prestataires = () => {
         </div>
       ) : (
         <Table
-          height={700}
+          height={880}
           data={data}
           bordered
           cellBordered
@@ -237,8 +237,8 @@ const Prestataires = () => {
           <Column width={50} align="center" fixed>
             <HeaderCell
               style={{
-                background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
-                color: "white",
+                background: "rgba(59, 130, 246, 0.2)",
+                color: "black",
                 fontWeight: "bold",
               }}
             >
@@ -247,11 +247,11 @@ const Prestataires = () => {
             <Cell dataKey="id" />
           </Column>
 
-          <Column flexGrow={1} minWidth={60}>
+          <Column flexGrow={1} minWidth={100}>
             <HeaderCell
               style={{
-                background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
-                color: "white",
+                background: "rgba(59, 130, 246, 0.2)",
+                color: "black",
                 fontWeight: "bold",
               }}
             >
@@ -260,11 +260,11 @@ const Prestataires = () => {
             <Cell dataKey="nom" />
           </Column>
 
-          <Column flexGrow={1} minWidth={60}>
+          <Column flexGrow={1} minWidth={100}>
             <HeaderCell
               style={{
-                background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
-                color: "white",
+                background: "rgba(59, 130, 246, 0.2)",
+                color: "black",
                 fontWeight: "bold",
               }}
             >
@@ -273,11 +273,11 @@ const Prestataires = () => {
             <Cell dataKey="specialite" />
           </Column>
 
-          <Column flexGrow={1} minWidth={70}>
+          <Column flexGrow={1} minWidth={150}>
             <HeaderCell
               style={{
-                background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
-                color: "white",
+                background: "rgba(59, 130, 246, 0.2)",
+                color: "black",
                 fontWeight: "bold",
               }}
             >
@@ -285,11 +285,11 @@ const Prestataires = () => {
             </HeaderCell>
             <Cell dataKey="addresse" />
           </Column>
-          <Column width={180} align="center" fixed>
+          <Column width={200} align="center" fixed>
             <HeaderCell
               style={{
-                background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
-                color: "white",
+                background: "rgba(59, 130, 246, 0.2)",
+                color: "black",
                 fontWeight: "bold",
               }}
             >
@@ -300,8 +300,8 @@ const Prestataires = () => {
           <Column width={100} align="center" fixed>
             <HeaderCell
               style={{
-                background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
-                color: "white",
+                background: "rgba(59, 130, 246, 0.2)",
+                color: "black",
                 fontWeight: "bold",
               }}
             >
@@ -313,8 +313,8 @@ const Prestataires = () => {
           <Column width={180} fixed="right">
             <HeaderCell
               style={{
-                background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
-                color: "white",
+                background: "rgba(59, 131, 246, 0.2)",
+                color: "black",
                 fontWeight: "bold",
               }}
             >
@@ -358,7 +358,7 @@ const Prestataires = () => {
                         addresse: rowData.addresse || "",
                         email: rowData.email || "",
                         telephone: rowData.telephone || "",
-                        password: rowData.password || "",
+                        passwordd: rowData.passwordd || "",
                       });
                       setOpenEdit(true);
                     }}
@@ -418,12 +418,16 @@ const Prestataires = () => {
             </Form.Group>
             <Form.Group>
               <Form.ControlLabel>password</Form.ControlLabel>
-              <Form.Control name="password" type="password" />
+              <Form.Control name="passwordd" type="password" />
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button appearance="primary" onClick={handleAdd}>
+          <Button appearance="primary" onClick={handleAdd}
+           style={{
+                      backgroundColor: "rgba(59, 131, 246, 0.2)",
+                      color: "black",
+                    }}>
             Enregistrer
           </Button>
           <Button appearance="subtle" onClick={() => setOpenAdd(false)}>
@@ -461,7 +465,7 @@ const Prestataires = () => {
             </Form.Group>
             <Form.Group>
               <Form.ControlLabel>password</Form.ControlLabel>
-              <Form.Control name="password" type="password" />
+              <Form.Control name="passwordd" type="password" />
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -518,7 +522,7 @@ const Prestataires = () => {
                 <strong>telephone:</strong> {selected.telephone}
               </p>
               <p>
-                <strong>password:</strong> {selected.password}
+                <strong>password:</strong> {selected.passwordd}
               </p>
               <p>
                 <strong>Créé le:</strong> {selected.created_at}

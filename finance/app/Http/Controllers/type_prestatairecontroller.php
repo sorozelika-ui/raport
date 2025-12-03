@@ -18,7 +18,7 @@ class type_prestatairecontroller extends Controller
                   ->orWhere('addresse', 'LIKE', "%$search%")
                   ->orWhere('email', 'LIKE', "%$search%")
                    ->orWhere('telephone', 'LIKE', "%$search%")
-                  ->orWhere('password', 'LIKE', "%$search%");
+                  ->orWhere('passwordd', 'LIKE', "%$search%");
         }
 
         // Tri descendante pour avoir le dernier ajout en haut
@@ -27,14 +27,21 @@ class type_prestatairecontroller extends Controller
         return response()->json($prestataires);
     }
 
-
     public function store(Request $request)
     {
-       $request->validate(['nom'=>'required|string','specialite'=>'required|string','addresse'=>'required|string',
-       'email'=>'required|string','password'=>'required|string','telephone'=>'required|string',]);
+       $request->validate(['nom'=>'required|string',
+       'specialite'=>'required|string',
+       'addresse'=>'required|string',
+       'email'=>'required|string',
+       'passwordd'=>'required|string',
+       'telephone'=>'required|string',]);
 
-        $type=type_prestataire::create(['nom'=>$request->nom,'specialite'=>$request->specialite,'addresse'=>$request->addresse,'email'=>$request->email,
-      'password'=>$request->password,'telephone'=>$request->telephone]);
+        $type=type_prestataire::create(['nom'=>$request->nom,
+        'specialite'=>$request->specialite,
+        'addresse'=>$request->addresse,
+        'email'=>$request->email,
+      'passwordd'=>$request->passwordd,
+      'telephone'=>$request->telephone]);
         
         return response()->json([
             'message' => 'prestataire ajouté avec succès',
@@ -61,8 +68,13 @@ class type_prestatairecontroller extends Controller
             return response()->json(['message' => 'prestataire non trouvé']);
         }
 
-        $validatedData = $request->validate(['nom' => 'required|string','specialite' => 'required|string','addresse' => 'required|string',
-         'email' => 'required|string','password' => 'required|string','telephone' => 'required|string',
+        $validatedData = $request->validate([
+        'nom' => 'required|string',
+        'specialite' => 'required|string',
+        'addresse' => 'required|string',
+         'email' => 'required|string',
+         'passwordd' => 'required|string',
+         'telephone' => 'required|string',
         ]);
 
         $type->update($validatedData);

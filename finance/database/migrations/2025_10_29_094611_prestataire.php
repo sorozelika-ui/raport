@@ -17,6 +17,9 @@ return new class extends Migration
                $table->STRING('nom');
                $table->string('specialite');
                $table->string('addresse');
+               $table->string('email');
+               $table->string('passwordd');
+               $table->string('telephone');
                $table->timestamps();
             }
           );
@@ -26,5 +29,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('type_prestataire');
+
     }
 };

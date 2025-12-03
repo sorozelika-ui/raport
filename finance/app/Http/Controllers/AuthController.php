@@ -18,7 +18,7 @@ class AuthController extends Controller
             'telephone' => 'required|string|max:20',
             'specialite' => 'required|string|max:255',
             'addresse' => 'required|string|max:255',
-            'password' => 'required|string|min:6',
+            'passwordd' => 'required|string|min:6',
         ]);
 
         $prestataire = type_prestataire::create([
@@ -27,7 +27,7 @@ class AuthController extends Controller
             'telephone' => $request->telephone,
             'specialite' => $request->specialite,
             'addresse' => $request->addresse,
-            'password' => Hash::make($request->password), // ← Hash important !
+            'passwordd' => $request->passwordd, // ← Hash important !
         ]);
 
         return response()->json([
@@ -49,18 +49,18 @@ class AuthController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required',
+            'passwordd' => 'required',
         ]);
 
         // Rechercher le prestataire
         $prestataire = type_prestataire::where('email', $request->email)->first();
 
         // Vérifier
-        if (!$prestataire || !Hash::check($request->password, $prestataire->password)) {
-            return response()->json([
-                'message' => 'Email ou mot de passe incorrect'
-            ], 401);
-        }
+        if (!$prestataire || $request->passwordd !== $prestataire->passwordd) {
+    return response()->json([
+        'message' => 'Email ou mot de passe incorrect'
+    ], 401);
+}
 
         // Token
         $token = Str::random(60);

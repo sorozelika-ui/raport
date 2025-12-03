@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
 import {Home,Users,CheckCircle,ChevronRight,ChevronDown,FileText,Award,Calendar,Star,LogOut,User as UserIcon,} from "lucide-react";
 
+
 const Layout = ({ children }) => {
   const [openMenus, setOpenMenus] = useState({
     prestataires: false,
@@ -209,10 +210,10 @@ const Layout = ({ children }) => {
                 >
                   <div className="ml-4 mt-2 space-y-2">
                     <motion.button
-                      onClick={() => handleNavigation("/prestataires-evalues")}
+                      onClick={() => handleNavigation("/prestataire_evalues")}
                       whileHover={{ x: 4 }}
                       className={`w-full flex items-center gap-3 p-3 rounded-lg bg-white bg-opacity-5 hover:bg-opacity-10 transition-all text-sm ${
-                        isActive("/prestataires-evalues") ? "bg-opacity-15" : ""
+                        isActive("/prestataire_evalues") ? "bg-opacity-15" : ""
                       }`}
                     >
                       <Users size={16} className="text-blue-300" />

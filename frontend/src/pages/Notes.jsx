@@ -97,16 +97,15 @@ const Notes = () => {
         marginBottom: "35px",
         paddingBottom: "20px",
         borderBottom: "2px solid transparent",
-        borderImage: "linear-gradient(90deg, #3b82f6, #8b5cf6) 1",
+        borderImage: "rgba(59, 130, 246, 0.2)",
       }}
     >
       <h2
-        style={{
+       style={{
           fontSize: "32px",
           fontWeight: "bold",
-          background: "linear-gradient(135deg, #1e40af 0%, #7c3aed 100%)",
+          backgroundcolor: "rgba(59, 130, 246, 0.2)",
           WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
           marginBottom: "25px",
         }}
       >
@@ -158,8 +157,8 @@ const Notes = () => {
         <Button
           appearance="primary"
           style={{
-            backgroundColor: "#1e40af",
-            color: "white",
+            backgroundColor: "rgba(59, 130, 246, 0.2)",
+            color: "black",
             borderRadius: "6px",
             padding: "8px 14px",
           }}
@@ -197,8 +196,8 @@ const Notes = () => {
           <Column width={70} align="center" fixed>
             <HeaderCell
               style={{
-                background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
-                color: "white",
+                background: "rgba(59, 130, 246, 0.2)",
+                color: "black",
                 fontWeight: "bold",
               }}
             >
@@ -210,8 +209,8 @@ const Notes = () => {
           <Column flexGrow={1} minWidth={150}>
             <HeaderCell
               style={{
-                background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
-                color: "white",
+                background: "rgba(59, 130, 246, 0.2)",
+                color: "black",
                 fontWeight: "bold",
               }}
             >
@@ -223,8 +222,8 @@ const Notes = () => {
           <Column flexGrow={1} minWidth={150}>
             <HeaderCell
               style={{
-                background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
-                color: "white",
+                background: "rgba(59, 130, 246, 0.2)",
+                color: "black",
                 fontWeight: "bold",
               }}
             >
@@ -236,8 +235,8 @@ const Notes = () => {
           <Column width={180} fixed="right">
             <HeaderCell
               style={{
-                background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
-                color: "white",
+                background: "rgba(59, 130, 246, 0.2)",
+                color: "black",
                 fontWeight: "bold",
               }}
             >
@@ -322,7 +321,11 @@ const Notes = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button appearance="primary" onClick={handleAdd}>
+          <Button appearance="primary" onClick={handleAdd}
+          style={{
+                background: "rgba(59, 130, 246, 0.2)",
+                color: "black",
+              }}>
             Enregistrer
           </Button>
           <Button appearance="subtle" onClick={() => setOpenAdd(false)}>

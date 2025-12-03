@@ -1,12 +1,12 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class type_prestataire extends Authenticatable
 
 {
+
     protected $table = 'type_prestataire';
 
     protected $fillable = [
@@ -14,11 +14,10 @@ class type_prestataire extends Authenticatable
         'specialite',
         'addresse',
         'email',
-        'password',
-        'telephone'
-    ];
+        'passwordd',
+        'telephone',];
 
     protected $hidden = [
-        'password',
+        'passwordd',
     ];
 }
