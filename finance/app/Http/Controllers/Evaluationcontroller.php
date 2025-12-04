@@ -90,6 +90,41 @@ class EvaluationController extends Controller
         return "Très Insuffisant";
     }
 
+    /*public function prestatairesAvecMoyenne()
+{
+    // Récupérer toutes les évaluations groupées par prestataire
+    $grouped = affichage::with(['prestataire', 'critere', 'note', 'annee'])
+        ->get()
+        ->groupBy('type_prestataire_id');
+
+    $result = [];
+
+    foreach ($grouped as $prestataireId => $items) {
+
+        // Calcul de la moyenne
+        $total = $items->sum(function ($e) {
+            return floatval($e->note->nt);
+        });
+
+        $moyenne = round($total / $items->count(), 2);
+
+        // Déterminer l'appréciation
+        $appreciation = $this->getAppreciationFromBareme($moyenne);
+
+        $result[] = [
+            'prestataire' => $items[0]->prestataire,
+            'specialite' => $items[0]->prestataire->specialite,
+            'annee' => $items[0]->annee->liban,
+            'moyenne' => $moyenne,
+            'appreciation' => $appreciation,
+            'nombre_criteres' => $items->count(),
+        ];
+    }
+
+    return response()->json($result);
+}*/
+
+
     public function index()
     {
         $evaluations = affichage::with(['prestataire', 'critere', 'note', 'annee'])

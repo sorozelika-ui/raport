@@ -294,18 +294,7 @@ const Layout = ({ children }) => {
           )}
         </nav>
 
-        {/* Décoration */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8, duration: 0.6 }}
-          className="absolute bottom-8 left-8 right-8"
-        >
-          <div className="h-px bg-gradient-to-r from-transparent via-white to-transparent opacity-20 mb-4"></div>
-          <p className="text-xs text-slate-400 text-center opacity-70">
-            Système de gestion des prestataires
-          </p>
-        </motion.div>
+       
       </motion.aside>
 
       {/* --- CONTENU PRINCIPAL --- */}

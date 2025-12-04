@@ -51,10 +51,13 @@ Route::post('/evaluations/create',[EvaluationController::class, 'createEvaluatio
 
 Route::get('/evaluations/initial',[EvaluationController::class,'initialData']);
 Route::get('/criteres-by-prestataire/{prestataire}/{annee?}',[EvaluationController::class,'criteresByPrestataire']);
+//Route::get('/prestataires-evalues', [EvaluationController::class, 'prestatairesAvecMoyenne']);
 
 //informations pour les prestataires evalués
 Route::get('/prestataires-evalues', [EvaluationController::class, 'prestatairesEvalues']);
-Route::middleware('auth:sanctum')->group(function () {
+
+
+/*Route::middleware('auth:sanctum')->group(function () {
 
     // Routes accessibles uniquement par ADMIN
     Route::middleware('check.admin')->group(function () {
@@ -62,4 +65,4 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/prestataires-evalues', [EvaluateurController::class, 'index']);
     });
 
-}); 
+}); */

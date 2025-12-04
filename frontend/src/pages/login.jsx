@@ -39,7 +39,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-950 p-4">
       {/* Cercles décoratifs en arrière-plan */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
@@ -52,7 +52,7 @@ const Login = () => {
             repeat: Infinity,
             ease: "linear",
           }}
-          className="absolute -top-20 -left-20 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30"
+          className="absolute -top-20 -left-20 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20"
         />
         <motion.div
           animate={{
@@ -64,7 +64,7 @@ const Login = () => {
             repeat: Infinity,
             ease: "linear",
           }}
-          className="absolute -bottom-20 -right-20 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30"
+          className="absolute -bottom-20 -right-20 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20"
         />
         <motion.div
           animate={{
@@ -76,7 +76,7 @@ const Login = () => {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute top-1/2 left-1/2 w-96 h-96 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30"
+          className="absolute top-1/2 left-1/2 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20"
         />
       </div>
 
@@ -88,13 +88,13 @@ const Login = () => {
         className="relative w-full max-w-md"
       >
         {/* Card de connexion */}
-        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden backdrop-blur-sm bg-opacity-95">
+        <div className="bg-slate-800 bg-opacity-50 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden border border-white border-opacity-10">
           {/* En-tête avec dégradé */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 p-8 text-white"
+            className="bg-gradient-to-b from-slate-700 to-slate-800 p-8 text-white border-b border-white border-opacity-10"
           >
             <motion.div
               initial={{ scale: 0 }}
@@ -102,16 +102,17 @@ const Login = () => {
               transition={{ delay: 0.3, type: "spring" }}
               className="flex justify-center mb-4"
             >
-              <div className="w-20 h-20 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
+              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center backdrop-blur-sm shadow-lg">
                 <Shield size={40} className="text-white" />
               </div>
             </motion.div>
-            <h1 className="text-3xl font-bold text-center mb-2">
+            <h1 className="text-3xl font-bold text-center mb-2 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
               DGBF-PERFORM
             </h1>
-            <p className="text-center text-blue-100 text-sm">
+            <p className="text-center text-slate-300 text-sm">
               Connectez-vous à votre espace
             </p>
+            <div className="h-1 w-16 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full mt-3 mx-auto"></div>
           </motion.div>
 
           {/* Formulaire */}
@@ -127,7 +128,7 @@ const Login = () => {
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm"
+                  className="bg-red-500 bg-opacity-10 border border-red-500 border-opacity-30 text-red-300 px-4 py-3 rounded-xl text-sm backdrop-blur-sm"
                 >
                   {error}
                 </motion.div>
@@ -139,12 +140,12 @@ const Login = () => {
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 0.5 }}
               >
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-slate-300 mb-2">
                   Adresse email
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Mail size={20} className="text-gray-400" />
+                    <Mail size={20} className="text-slate-400" />
                   </div>
                   <input
                     type="email"
@@ -152,7 +153,7 @@ const Login = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="votre@email.com"
                     required
-                    className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition-all duration-300 text-gray-800 placeholder-gray-400"
+                    className="w-full pl-12 pr-4 py-3 bg-slate-700 bg-opacity-50 border-2 border-slate-600 text-white rounded-xl focus:border-blue-500 focus:outline-none transition-all duration-300 placeholder-slate-400"
                   />
                 </div>
               </motion.div>
@@ -163,48 +164,41 @@ const Login = () => {
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 0.6 }}
               >
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-slate-300 mb-2">
                   Mot de passe
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Lock size={20} className="text-gray-400" />
+                    <Lock size={20} className="text-slate-400" />
                   </div>
                   <input
                     type={showPassword ? "text" : "password"}
                     value={passwordd}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
+                    placeholder="minimum 5 caractères"
                     required
-                    className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition-all duration-300 text-gray-800"
-                  />ssss
+                    className="w-full pl-12 pr-12 py-3 bg-slate-700 bg-opacity-50 border-2 border-slate-600 text-white rounded-xl focus:border-blue-500 focus:outline-none transition-all duration-300 placeholder-slate-400"
+                  />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
+                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-white transition-colors"
                   >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
                 </div>
               </motion.div>
 
-              {/* Se souvenir / Mot de passe oublié */}
+              {/* Mot de passe oublié */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.7 }}
-                className="flex items-center justify-between text-sm"
+                className="flex items-center justify-end text-sm"
               >
-                <label className="flex items-center space-x-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                  />
-                  <span className="text-gray-600">Se souvenir de moi</span>
-                </label>
                 <a
                   href="#"
-                  className="text-blue-600 hover:text-blue-800 font-medium transition-colors"
+                  className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
                 >
                   Mot de passe oublié ?
                 </a>
@@ -219,7 +213,7 @@ const Login = () => {
                 whileTap={{ scale: 0.98 }}
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <>
@@ -243,35 +237,18 @@ const Login = () => {
               </motion.button>
             </form>
 
-            {/* Divider */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.9 }}
-              className="relative my-8"
-            >
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-200"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white text-gray-500">
-                  Première visite ?
-                </span>
-              </div>
-            </motion.div>
-
             {/* Lien d'inscription */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1 }}
-              className="text-center"
+              className="text-center mt-6"
             >
-              <p className="text-gray-600 text-sm">
+              <p className="text-slate-400 text-sm">
                 Vous n'avez pas de compte ?{" "}
                 <a
-                  href="/inscrire"
-                  className="text-blue-600 hover:text-blue-800 font-semibold transition-colors"
+                  href="/inscription"
+                  className="text-blue-400 hover:text-blue-300 font-semibold transition-colors hover:underline"
                 >
                   Créer un compte
                 </a>
@@ -285,7 +262,7 @@ const Login = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.1 }}
-          className="text-center mt-8 text-sm text-gray-600"
+          className="text-center mt-8 text-sm text-slate-400"
         >
           <p>© 2024 DGBF-PERFORM. Tous droits réservés.</p>
         </motion.div>
