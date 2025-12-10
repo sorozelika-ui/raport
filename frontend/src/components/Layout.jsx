@@ -1,24 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
-import {Home,Users,CheckCircle,ChevronRight,ChevronDown,FileText,Award,Calendar,Star,LogOut,User as UserIcon,} from "lucide-react";
-
+import {
+  Home,
+  Users,
+  CheckCircle,
+  ChevronRight,
+  ChevronDown,
+  FileText,
+  Award,
+  Calendar,
+  Star,
+  LogOut,
+  User as UserIcon,
+  Bell
+} from "lucide-react";
 
 const Layout = ({ children }) => {
   const [openMenus, setOpenMenus] = useState({
     prestataires: false,
     evaluateurs: false,
   });
+
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    // Récupérer l'utilisateur connecté
     const userData = localStorage.getItem("user");
-    if (userData) {
-      setUser(JSON.parse(userData));
-    }
+    if (userData) setUser(JSON.parse(userData));
   }, []);
 
   const toggleMenu = (menu) => {
@@ -28,10 +38,8 @@ const Layout = ({ children }) => {
     }));
   };
 
-  const handleNavigation = (path) => {
-    navigate(path);
-  };
-//deconnexion
+  const handleNavigation = (path) => navigate(path);
+
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
@@ -90,21 +98,15 @@ const Layout = ({ children }) => {
             onClick={() => handleNavigation("/dashboard")}
             whileHover={{ x: 8, backgroundColor: "rgba(59, 130, 246, 0.2)" }}
             whileTap={{ scale: 0.98 }}
-            transition={{ duration: 0.2 }}
-            className={`w-full flex items-center justify-between gap-3 p-4 rounded-xl bg-white bg-opacity-5 backdrop-blur-sm border border-white border-opacity-10 hover:border-opacity-30 transition-all group ${
+            className={`w-full flex items-center justify-between p-4 rounded-xl bg-white bg-opacity-5 backdrop-blur-sm border border-white border-opacity-10 ${
               isActive("/dashboard") ? "bg-opacity-20 border-opacity-40" : ""
             }`}
           >
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-blue-500 bg-opacity-20 rounded-lg group-hover:bg-opacity-40 transition-all">
-                <Home size={20} />
-              </div>
+              <Home size={20} />
               <span className="font-medium">Accueil</span>
             </div>
-            <ChevronRight
-              size={18}
-              className="opacity-0 group-hover:opacity-100 transition-opacity"
-            />
+            <ChevronRight size={18} />
           </motion.button>
 
           {/* Menu Prestataires */}
@@ -112,14 +114,10 @@ const Layout = ({ children }) => {
             <motion.button
               onClick={() => toggleMenu("prestataires")}
               whileHover={{ x: 8, backgroundColor: "rgba(59, 130, 246, 0.2)" }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2 }}
-              className="w-full flex items-center justify-between gap-3 p-4 rounded-xl bg-white bg-opacity-5 backdrop-blur-sm border border-white border-opacity-10 hover:border-opacity-30 transition-all group"
+              className="w-full flex items-center justify-between p-4 rounded-xl bg-white bg-opacity-5 border border-white border-opacity-10"
             >
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-indigo-500 bg-opacity-20 rounded-lg group-hover:bg-opacity-40 transition-all">
-                  <Users size={20} />
-                </div>
+                <Users size={20} />
                 <span className="font-medium">Prestataires</span>
               </div>
               <motion.div
@@ -130,47 +128,35 @@ const Layout = ({ children }) => {
               </motion.div>
             </motion.button>
 
+            {/* Sous-menu Prestataires */}
             <AnimatePresence>
               {openMenus.prestataires && (
                 <motion.div
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="overflow-hidden"
+                  className="overflow-hidden ml-4 mt-2 space-y-2"
                 >
-                  <div className="ml-4 mt-2 space-y-2">
-                    <motion.button
-                      onClick={() => handleNavigation("/login")}
-                      whileHover={{ x: 4 }}
-                      className={`w-full flex items-center gap-3 p-3 rounded-lg bg-white bg-opacity-5 hover:bg-opacity-10 transition-all text-sm ${
-                        isActive("/login") ? "bg-opacity-15" : ""
-                      }`}
-                    >
-                      <FileText size={16} className="text-blue-300" />
-                      <span>Connectez-vous</span>
-                    </motion.button>
-                    <motion.button
-                      onClick={() => handleNavigation("/inscription")}
-                      whileHover={{ x: 4 }}
-                      className={`w-full flex items-center gap-3 p-3 rounded-lg bg-white bg-opacity-5 hover:bg-opacity-10 transition-all text-sm ${
-                        isActive("/inscription") ? "bg-opacity-15" : ""
-                      }`}
-                    >
-                      <FileText size={16} className="text-blue-300" />
-                      <span>Inscrivez-vous ici</span>
-                    </motion.button>
-                    <motion.button
-                      onClick={() => handleNavigation("/consulter-resultat")}
-                      whileHover={{ x: 4 }}
-                      className={`w-full flex items-center gap-3 p-3 rounded-lg bg-white bg-opacity-5 hover:bg-opacity-10 transition-all text-sm ${
-                        isActive("/consulter-resultat") ? "bg-opacity-15" : ""
-                      }`}
-                    >
-                      <Award size={16} className="text-green-300" />
-                      <span>Consulter mon résultat</span>
-                    </motion.button>
-                  </div>
+                  <button
+                    onClick={() => handleNavigation("/login")}
+                    className="w-full flex items-center gap-3 p-3 text-sm bg-white bg-opacity-5 rounded-lg"
+                  >
+                    <FileText size={16} /> Connectez-vous
+                  </button>
+
+                  <button
+                    onClick={() => handleNavigation("/inscription")}
+                    className="w-full flex items-center gap-3 p-3 text-sm bg-white bg-opacity-5 rounded-lg"
+                  >
+                    <FileText size={16} /> Inscrivez-vous ici
+                  </button>
+
+                  <button
+                    onClick={() => handleNavigation("/consulter-resultat")}
+                    className="w-full flex items-center gap-3 p-3 text-sm bg-white bg-opacity-5 rounded-lg"
+                  >
+                    <Award size={16} /> Consulter mon résultat
+                  </button>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -181,14 +167,10 @@ const Layout = ({ children }) => {
             <motion.button
               onClick={() => toggleMenu("evaluateurs")}
               whileHover={{ x: 8, backgroundColor: "rgba(59, 130, 246, 0.2)" }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2 }}
-              className="w-full flex items-center justify-between gap-3 p-4 rounded-xl bg-white bg-opacity-5 backdrop-blur-sm border border-white border-opacity-10 hover:border-opacity-30 transition-all group"
+              className="w-full flex items-center justify-between p-4 rounded-xl bg-white bg-opacity-5 border border-white border-opacity-10"
             >
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-purple-500 bg-opacity-20 rounded-lg group-hover:bg-opacity-40 transition-all">
-                  <CheckCircle size={20} />
-                </div>
+                <CheckCircle size={20} />
                 <span className="font-medium">Évaluateurs</span>
               </div>
               <motion.div
@@ -199,105 +181,86 @@ const Layout = ({ children }) => {
               </motion.div>
             </motion.button>
 
+            {/* Sous-menu Évaluateurs */}
             <AnimatePresence>
               {openMenus.evaluateurs && (
                 <motion.div
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="overflow-hidden"
+                  className="overflow-hidden ml-4 mt-2 space-y-2"
                 >
-                  <div className="ml-4 mt-2 space-y-2">
-                    <motion.button
-                      onClick={() => handleNavigation("/prestataire_evalues")}
-                      whileHover={{ x: 4 }}
-                      className={`w-full flex items-center gap-3 p-3 rounded-lg bg-white bg-opacity-5 hover:bg-opacity-10 transition-all text-sm ${
-                        isActive("/prestataire_evalues") ? "bg-opacity-15" : ""
-                      }`}
-                    >
-                      <Users size={16} className="text-blue-300" />
-                      <span>Prestataires évalués</span>
-                    </motion.button>
-                    <motion.button
-                      onClick={() => handleNavigation("/evaluation")}
-                      whileHover={{ x: 4 }}
-                      className={`w-full flex items-center gap-3 p-3 rounded-lg bg-white bg-opacity-5 hover:bg-opacity-10 transition-all text-sm ${
-                        isActive("/evaluation") ? "bg-opacity-15" : ""
-                      }`}
-                    >
-                      <Star size={16} className="text-yellow-300" />
-                      <span>Évaluer un prestataire</span>
-                    </motion.button>
-                    <motion.button
-                      onClick={() => handleNavigation("/prestataires")}
-                      whileHover={{ x: 4 }}
-                      className={`w-full flex items-center gap-3 p-3 rounded-lg bg-white bg-opacity-5 hover:bg-opacity-10 transition-all text-sm ${
-                        isActive("/prestataires") ? "bg-opacity-15" : ""
-                      }`}
-                    >
-                      <Users size={16} className="text-blue-300" />
-                      <span>Liste des prestataires</span>
-                    </motion.button>
-                    <motion.button
-                      onClick={() => handleNavigation("/critere")}
-                      whileHover={{ x: 4 }}
-                      className={`w-full flex items-center gap-3 p-3 rounded-lg bg-white bg-opacity-5 hover:bg-opacity-10 transition-all text-sm ${
-                        isActive("/critere") ? "bg-opacity-15" : ""
-                      }`}
-                    >
-                      <FileText size={16} className="text-yellow-300" />
-                      <span>Liste des Critères</span>
-                    </motion.button>
-                    <motion.button
-                      onClick={() => handleNavigation("/annee")}
-                      whileHover={{ x: 4 }}
-                      className={`w-full flex items-center gap-3 p-3 rounded-lg bg-white bg-opacity-5 hover:bg-opacity-10 transition-all text-sm ${
-                        isActive("/annee") ? "bg-opacity-15" : ""
-                      }`}
-                    >
-                      <Calendar size={16} className="text-green-300" />
-                      <span>Liste des années</span>
-                    </motion.button>
-                    <motion.button
-                      onClick={() => handleNavigation("/note")}
-                      whileHover={{ x: 4 }}
-                      className={`w-full flex items-center gap-3 p-3 rounded-lg bg-white bg-opacity-5 hover:bg-opacity-10 transition-all text-sm ${
-                        isActive("/note") ? "bg-opacity-15" : ""
-                      }`}
-                    >
-                      <Star size={16} className="text-orange-300" />
-                      <span>Liste des notes</span>
-                    </motion.button>
-                  </div>
+                  <button
+                    onClick={() => handleNavigation("/prestataire_evalues")}
+                    className="w-full flex items-center gap-3 p-3 text-sm bg-white bg-opacity-5 rounded-lg"
+                  >
+                    <Users size={16} /> Prestataires évalués
+                  </button>
+
+                  <button
+                    onClick={() => handleNavigation("/evaluation")}
+                    className="w-full flex items-center gap-3 p-3 text-sm bg-white bg-opacity-5 rounded-lg"
+                  >
+                    <Star size={16} /> Évaluer un prestataire
+                  </button>
+
+                  <button
+                    onClick={() => handleNavigation("/prestataires")}
+                    className="w-full flex items-center gap-3 p-3 text-sm bg-white bg-opacity-5 rounded-lg"
+                  >
+                    <Users size={16} /> Liste des prestataires
+                  </button>
+
+                  <button
+                    onClick={() => handleNavigation("/critere")}
+                    className="w-full flex items-center gap-3 p-3 text-sm bg-white bg-opacity-5 rounded-lg"
+                  >
+                    <FileText size={16} /> Liste des Critères
+                  </button>
+
+                  <button
+                    onClick={() => handleNavigation("/annee")}
+                    className="w-full flex items-center gap-3 p-3 text-sm bg-white bg-opacity-5 rounded-lg"
+                  >
+                    <Calendar size={16} /> Liste des années
+                  </button>
+
+                  <motion.button
+                    onClick={() => handleNavigation("/note")}
+                    whileHover={{ x: 4 }}
+                    className={`w-full flex items-center gap-3 p-3 rounded-lg bg-white bg-opacity-5 hover:bg-opacity-10 transition-all text-sm ${
+                      isActive("/note") ? "bg-opacity-15" : ""
+                    }`}
+                  >
+                    <Star size={16} className="text-orange-300" />
+                    <span>Liste des notes</span>
+                  </motion.button>
+                  <motion.button
+                    onClick={() => handleNavigation("/notification")}
+                    className="w-full flex items-center gap-3 p-3 text-sm bg-white bg-opacity-5 rounded-lg"
+                  >
+                    <Bell size={16} /> Notification
+                  </motion.button>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
-          {/* Bouton Déconnexion */}
+          {/* Déconnexion */}
           {user && (
             <motion.button
               onClick={handleLogout}
               whileHover={{ x: 8, backgroundColor: "rgba(239, 68, 68, 0.2)" }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2 }}
-              className="flex items-center justify-between gap-3 p-4 rounded-xl bg-white bg-opacity-5 backdrop-blur-sm border border-white border-opacity-10 hover:border-red-400 hover:border-opacity-40 transition-all group mt-4"
+              className="flex items-center gap-3 p-4 rounded-xl bg-white bg-opacity-5 border border-white border-opacity-10 mt-4"
             >
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-red-500 bg-opacity-20 rounded-lg group-hover:bg-opacity-40 transition-all">
-                  <LogOut size={20} />
-                </div>
-                <span className="font-medium">Déconnexion</span>
-              </div>
+              <LogOut size={20} />
+              <span className="font-medium">Déconnexion</span>
             </motion.button>
           )}
         </nav>
-
-       
       </motion.aside>
 
-      {/* --- CONTENU PRINCIPAL --- */}
+      {/* Contenu principal */}
       <div className="ml-72 flex-1">{children}</div>
     </div>
   );

@@ -98,5 +98,24 @@ class type_prestatairecontroller extends Controller
 
         return response()->json(['message' => 'prestataire supprimé avec succès']);
     }
+
+
+    public function evolution($id)
+{
+    // Récupérer toutes les évaluations du prestataire
+    $evaluations = \DB::table('evaluations')
+        ->join('annees', 'evaluations.annees_id', '=', 'annees.id')
+        ->select(
+            'annees.liban as annee',
+            \DB::raw('AVG(evaluations.moyenne) as moyenne')
+        )
+        ->where('evaluations.type_prestataire_id', $id)
+        ->groupBy('annees.liban')
+        ->orderBy('annees.liban', 'asc')
+        ->get();
+
+    return response()->json($evaluations);
+}
+
     
 }

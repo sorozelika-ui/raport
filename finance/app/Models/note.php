@@ -8,7 +8,7 @@ class note extends Model
 {
     use HasFactory; 
    protected $table='note';
-   protected $fillable = ['nt','appreciation'];
+   protected $fillable = ['nts','appreciation','moyenne'];
    protected $timestamp=true;
    protected $connection = 'pgsql';
 }

@@ -29,7 +29,7 @@ Route::delete('/ANNEE/{id}', [AnneeController::class,'destroy']);
 
 //route des prestataires
 
-
+Route::get('/prestataires/{id}/evolution', [type_prestatairecontroller::class, 'evolution']);
 Route::get('/prestataire', [type_prestatairecontroller::class, 'index']);
 Route::post('/prestataire', [type_prestatairecontroller::class, 'store']);
 Route::get('/prestataire/{id}', [type_prestatairecontroller::class,'show']);
@@ -55,6 +55,12 @@ Route::get('/criteres-by-prestataire/{prestataire}/{annee?}',[EvaluationControll
 
 //informations pour les prestataires evalués
 Route::get('/prestataires-evalues', [EvaluationController::class, 'prestatairesEvalues']);
+
+// consulter les resultats
+
+Route::get('/evaluations/prestataire/{id}', [EvaluationController::class, 'getByPrestataires']);
+
+
 
 
 /*Route::middleware('auth:sanctum')->group(function () {

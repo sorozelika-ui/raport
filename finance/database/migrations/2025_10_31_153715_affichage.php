@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('type_prestatataire_id')->contrained('type_prestatataire')->ondelete('cascade');
             $table->foreignId('criteres_id')->contrained('criteres')->ondelete('cascade');
             $table->foreignId('note_id')->contrained('note')->ondelete('cascade');
-            $table->foreignId('années_id')->contrained('années')->ondelete('cascade');
+            $table->foreignId('annees_id')->contrained('annees')->ondelete('cascade');
              $table->timestamps();
         });
     }

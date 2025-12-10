@@ -24,7 +24,7 @@ const Notes = () => {
 
   // Form
   const [form, setForm] = useState({
-    nt: "",
+    nts: "",
     appreciation: "",
   });
 
@@ -163,7 +163,7 @@ const Notes = () => {
             padding: "8px 14px",
           }}
           onClick={() => {
-            setForm({ nt: "", appreciation: "" });
+            setForm({ nts: "", appreciation: "" });
             setOpenAdd(true);
           }}
         >
@@ -216,7 +216,7 @@ const Notes = () => {
             >
               Note
             </HeaderCell>
-            <Cell dataKey="nt" />
+            <Cell dataKey="nts" />
           </Column>
 
           <Column flexGrow={1} minWidth={150}>
@@ -312,7 +312,7 @@ const Notes = () => {
           <Form fluid onChange={(v) => setForm(v)} formValue={form}>
             <Form.Group>
               <Form.ControlLabel>Note</Form.ControlLabel>
-              <Form.Control name="nt" />
+              <Form.Control name="nts" />
             </Form.Group>
             <Form.Group>
               <Form.ControlLabel>appreciation</Form.ControlLabel>
@@ -343,7 +343,7 @@ const Notes = () => {
           <Form fluid onChange={(v) => setForm(v)} formValue={form}>
             <Form.Group>
               <Form.ControlLabel>Note</Form.ControlLabel>
-              <Form.Control name="nt" />
+              <Form.Control name="nts" />
             </Form.Group>
             <Form.Group>
               <Form.ControlLabel>appreciation</Form.ControlLabel>
@@ -389,7 +389,7 @@ const Notes = () => {
                 <strong>ID:</strong> {selected.id}
               </p>
               <p>
-                <strong>Note:</strong> {selected.nt}
+                <strong>Note:</strong> {selected.nts}
               </p>
               <p>
                 <strong>appreciation:</strong> {selected.appreciation}

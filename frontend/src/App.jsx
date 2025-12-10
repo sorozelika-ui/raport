@@ -10,7 +10,9 @@ import Notes from "./pages/Notes";
 import Evaluation from "./pages/Evaluation";
 import Prestataires from "./pages/prestataires";
 import PrestatairesEvalues from "./pages/Prestataires_evalues";
-
+import Consulter from "./pages/Consulter";
+import Notification from "./pages/Notification";
+import EvolutionPrestataire from "./pages/EvolutionPrestataire";
 
 
 // 🔐 Vérifie si l'utilisateur est connecté
@@ -38,9 +40,11 @@ function App() {
         <Route
           path="/"
           element={
-            isAuthenticated()
-              ? <Navigate to="/dashboard" replace />
-              : <Navigate to="/login" replace />
+            isAuthenticated() ? (
+              <Navigate to="/dashboard" replace />
+            ) : (
+              <Navigate to="/login" replace />
+            )
           }
         />
 
@@ -121,7 +125,36 @@ function App() {
             </ProtectedRoute>
           }
         />
-
+        <Route
+          path="/consulter-resultat"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <Consulter />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/notification"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <Notification />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/navigation"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <EvolutionPrestataire />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

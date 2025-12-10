@@ -1,21 +1,8 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Send,
-  Mail,
-  Bell,
-  CheckCircle,
-  AlertCircle,
-  Users,
-  FileText,
-  Calendar,
-  Award,
-  X,
-  Search,
-  Filter,
-} from "lucide-react";
+import {Send,Mail,Bell,CheckCircle,AlertCircle,Users,FileText,Calendar,Award,X,Search,Filter,} from "lucide-react";
 
-const NotificationSystem = () => {
+const Notification = () => {
   const [selectedPrestataires, setSelectedPrestataires] = useState([]);
   const [notificationData, setNotificationData] = useState({
     titre: "",
@@ -33,7 +20,7 @@ const NotificationSystem = () => {
 
   // Données exemple de prestataires
   const [prestataires] = useState([
-    {
+    /*{
       id: 1,
       nom: "Entreprise ABC",
       email: "abc@example.com",
@@ -67,7 +54,7 @@ const NotificationSystem = () => {
       email: "build@example.com",
       specialite: "Construction",
       noteGlobale: 95,
-    },
+    },*/
   ]);
 
   const specialites = [
@@ -506,4 +493,4 @@ const NotificationSystem = () => {
   );
 };
 
-export default NotificationSystem;
+export default Notification;

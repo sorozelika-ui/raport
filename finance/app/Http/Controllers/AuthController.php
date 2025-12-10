@@ -14,7 +14,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'nom' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:type_prestataire,email', // ← SANS le 's'
+            'email' => 'required|string|email|max:255|unique:type_prestataire,email',
             'telephone' => 'required|string|max:20',
             'specialite' => 'required|string|max:255',
             'addresse' => 'required|string|max:255',
@@ -63,7 +63,7 @@ class AuthController extends Controller
 }
 
         // Token
-        $token = Str::random(60);
+        $token = Str::random(500);
 
         return response()->json([
             'message' => 'Connexion réussie',

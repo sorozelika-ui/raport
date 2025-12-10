@@ -1,8 +1,11 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Home, Users, CheckCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   return (
     <div className="p-12">
       <motion.div
@@ -49,7 +52,8 @@ const Dashboard = () => {
               y: -4,
               boxShadow: "0 20px 40px rgba(59, 130, 246, 0.2)",
             }}
-            className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100"
+            onClick={() => navigate("/navigation")}
+            className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 cursor-pointer"
           >
             <div className="flex items-center gap-4">
               <div className="p-3 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl">

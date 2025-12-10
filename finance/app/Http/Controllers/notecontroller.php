@@ -15,7 +15,7 @@ class notecontroller extends Controller
         // Recherche
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
-            $query->where('nt', 'LIKE', "%$search%")
+            $query->where('nts', 'LIKE', "%$search%")
                   ->orWhere('appreciation', 'LIKE', "%$search%");
         }
 
@@ -28,10 +28,10 @@ class notecontroller extends Controller
 
     public function store(Request $request)
     {
-       $request->validate(['nt'=>'required|numeric|min:1|max:20',
+       $request->validate(['nts'=>'required|numeric|min:1|max:20',
        'appreciation'=>'required|string',]);
 
-        $note=note::create(['nt'=>$request->nt,
+        $note=note::create(['nts'=>$request->nts,
         'appreciation'=>$request->appreciation]);
         return response()->json([
             'message' => 'note ajouté avec succès',
@@ -73,7 +73,7 @@ class notecontroller extends Controller
     }
 
     $validatedData = $request->validate([
-        'nt' => 'required|numeric|min:1|max:20',
+        'nts' => 'required|numeric|min:1|max:20',
         'appreciation' => 'required|string',
     ]);
 

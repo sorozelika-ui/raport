@@ -62,9 +62,9 @@ const Evaluation = () => {
 
       setNotesDispo(
         noteRes.data.map((n) => ({
-          label: `${n.nt}/20`,
+          label: `${n.nts}/20`,
           value: n.id,
-          nt: n.nt,
+          nts: n.nts,
         }))
       );
     } catch (error) {
@@ -108,7 +108,7 @@ const Evaluation = () => {
     setSelectedCriteres(newCriteres);
 
     const noteObj = notesDispo.find((n) => n.value === noteId);
-    const noteValue = noteObj?.nt || 0;
+    const noteValue = noteObj?.nts || 0;
 
     setNotesParCritere({ ...notesParCritere, [index]: noteValue });
 
@@ -553,8 +553,8 @@ const Evaluation = () => {
                   </HeaderCell>
                   <Cell>
                     {(row) => (
-                      <Tag color={row.note?.nt >= 10 ? "green" : "red"}>
-                        {row.note?.nt || 0}/20
+                      <Tag color={row.note?.nts >= 10 ? "green" : "red"}>
+                        {row.note?.nts || 0}/20
                       </Tag>
                     )}
                   </Cell>
