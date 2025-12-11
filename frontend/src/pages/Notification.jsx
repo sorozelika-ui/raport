@@ -1,14 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {Send,Mail,Bell,CheckCircle,AlertCircle,Users,FileText,Calendar,Award,X,Search,Filter,} from "lucide-react";
+import {
+  Send,
+  Bell,
+  CheckCircle,
+  AlertCircle,
+  Users,
+  FileText,
+  Calendar,
+  Search,
+  Filter,
+} from "lucide-react";
+import axios from "axios";
 
 const Notification = () => {
   const [selectedPrestataires, setSelectedPrestataires] = useState([]);
+  const [prestataires, setPrestataires] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [notificationData, setNotificationData] = useState({
     titre: "",
     message: "",
     type: "evaluation",
-    noteGlobale: "",
     annee: new Date().getFullYear(),
     details: "",
   });
@@ -18,44 +30,28 @@ const Notification = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterSpecialite, setFilterSpecialite] = useState("all");
 
-  // Données exemple de prestataires
-  const [prestataires] = useState([
-    /*{
-      id: 1,
-      nom: "Entreprise ABC",
-      email: "abc@example.com",
-      specialite: "Construction",
-      noteGlobale: 85,
-    },
-    {
-      id: 2,
-      nom: "Services XYZ",
-      email: "xyz@example.com",
-      specialite: "Consulting",
-      noteGlobale: 92,
-    },
-    {
-      id: 3,
-      nom: "Tech Solutions",
-      email: "tech@example.com",
-      specialite: "Informatique",
-      noteGlobale: 78,
-    },
-    {
-      id: 4,
-      nom: "Green Energy",
-      email: "green@example.com",
-      specialite: "Énergie",
-      noteGlobale: 88,
-    },
-    {
-      id: 5,
-      nom: "Build Masters",
-      email: "build@example.com",
-      specialite: "Construction",
-      noteGlobale: 95,
-    },*/
-  ]);
+  // Charger les prestataires au démarrage
+  useEffect(() => {
+    loadPrestataires();
+  }, []);
+
+  const loadPrestataires = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/api/prestataire");
+      const prestData = Array.isArray(response.data)
+        ? response.data
+        : response.data.data || [];
+
+      console.log("Prestataires chargés:", prestData);
+      setPrestataires(prestData);
+    } catch (err) {
+      console.error("Erreur chargement prestataires:", err);
+      setError("Erreur lors du chargement des prestataires");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const specialites = [
     "all",
@@ -110,14 +106,19 @@ const Notification = () => {
     setError("");
 
     try {
-      // Simulation d'envoi - Remplacez par votre appel API
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/notifications/send",
+        {
+          prestataire_ids: selectedPrestataires,
+          titre: notificationData.titre,
+          message: notificationData.message,
+          type: notificationData.type,
+          annee: notificationData.annee,
+          details: notificationData.details,
+        }
+      );
 
-      const response = await axios.post("http://127.0.0.1:8000/api/notifications/send", {
-         prestataires: selectedPrestataires,
-         ...notificationData
-       });
-
+      console.log("Réponse:", response.data);
       setSuccess(true);
 
       // Reset après succès
@@ -128,14 +129,16 @@ const Notification = () => {
           titre: "",
           message: "",
           type: "evaluation",
-          noteGlobale: "",
           annee: new Date().getFullYear(),
           details: "",
         });
       }, 3000);
     } catch (err) {
-      setError("Erreur lors de l'envoi des notifications");
-      console.error(err);
+      console.error("Erreur envoi:", err);
+      setError(
+        err.response?.data?.message ||
+          "Erreur lors de l'envoi des notifications"
+      );
     } finally {
       setSending(false);
     }
@@ -154,53 +157,152 @@ const Notification = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "400px",
+        }}
+      >
+        <div style={{ textAlign: "center" }}>
+          <div
+            style={{
+              width: "50px",
+              height: "50px",
+              border: "4px solid #e5e7eb",
+              borderTop: "4px solid #667eea",
+              borderRadius: "50%",
+              animation: "spin 1s linear infinite",
+              margin: "0 auto 20px",
+            }}
+          />
+          <p style={{ color: "#6b7280" }}>Chargement des prestataires...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 p-6">
-      <div className="max-w-7xl mx-auto">
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%)",
+        padding: "24px",
+      }}
+    >
+      <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
         {/* En-tête */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          style={{ marginBottom: "32px" }}
         >
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-3 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-xl">
-              <Bell size={28} className="text-white" />
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
+              marginBottom: "8px",
+            }}
+          >
+            <div
+              style={{
+                padding: "12px",
+                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                borderRadius: "12px",
+              }}
+            >
+              <Bell size={28} color="white" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-slate-800">
+              <h1
+                style={{
+                  fontSize: "30px",
+                  fontWeight: "bold",
+                  color: "#1e293b",
+                  margin: 0,
+                }}
+              >
                 Notifications aux Prestataires
               </h1>
-              <p className="text-slate-600">
+              <p style={{ color: "#64748b", margin: 0 }}>
                 Envoyez des notifications concernant les évaluations
               </p>
             </div>
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 2fr",
+            gap: "24px",
+          }}
+        >
           {/* Section Sélection des Prestataires */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="lg:col-span-1"
           >
-            <div className="bg-white rounded-2xl shadow-lg p-6 border border-slate-200">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-                  <Users size={20} className="text-blue-500" />
+            <div
+              style={{
+                background: "white",
+                borderRadius: "16px",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                padding: "24px",
+                border: "1px solid #e2e8f0",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  marginBottom: "16px",
+                }}
+              >
+                <h2
+                  style={{
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                    color: "#1e293b",
+                    margin: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                  }}
+                >
+                  <Users size={20} color="#667eea" />
                   Destinataires
                 </h2>
-                <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
+                <span
+                  style={{
+                    padding: "4px 12px",
+                    background: "#dbeafe",
+                    color: "#1e40af",
+                    borderRadius: "20px",
+                    fontSize: "14px",
+                    fontWeight: "600",
+                  }}
+                >
                   {selectedPrestataires.length}
                 </span>
               </div>
 
               {/* Recherche et Filtres */}
-              <div className="space-y-3 mb-4">
-                <div className="relative">
+              <div style={{ marginBottom: "16px" }}>
+                <div style={{ position: "relative", marginBottom: "12px" }}>
                   <Search
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400"
+                    style={{
+                      position: "absolute",
+                      left: "12px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      color: "#94a3b8",
+                    }}
                     size={18}
                   />
                   <input
@@ -208,19 +310,39 @@ const Notification = () => {
                     placeholder="Rechercher..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm"
+                    style={{
+                      width: "100%",
+                      padding: "10px 10px 10px 40px",
+                      border: "2px solid #e2e8f0",
+                      borderRadius: "8px",
+                      outline: "none",
+                      fontSize: "14px",
+                    }}
                   />
                 </div>
 
-                <div className="relative">
+                <div style={{ position: "relative" }}>
                   <Filter
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400"
+                    style={{
+                      position: "absolute",
+                      left: "12px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      color: "#94a3b8",
+                    }}
                     size={18}
                   />
                   <select
                     value={filterSpecialite}
                     onChange={(e) => setFilterSpecialite(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm appearance-none"
+                    style={{
+                      width: "100%",
+                      padding: "10px 10px 10px 40px",
+                      border: "2px solid #e2e8f0",
+                      borderRadius: "8px",
+                      outline: "none",
+                      fontSize: "14px",
+                    }}
                   >
                     {specialites.map((spec) => (
                       <option key={spec} value={spec}>
@@ -233,7 +355,18 @@ const Notification = () => {
 
               <button
                 onClick={handleSelectAll}
-                className="w-full mb-3 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-sm font-medium transition-colors"
+                style={{
+                  width: "100%",
+                  marginBottom: "12px",
+                  padding: "10px 16px",
+                  background: "#f1f5f9",
+                  border: "none",
+                  borderRadius: "8px",
+                  fontSize: "14px",
+                  fontWeight: "500",
+                  cursor: "pointer",
+                  color: "#475569",
+                }}
               >
                 {selectedPrestataires.length === filteredPrestataires.length
                   ? "Tout désélectionner"
@@ -241,44 +374,96 @@ const Notification = () => {
               </button>
 
               {/* Liste des prestataires */}
-              <div className="space-y-2 max-h-96 overflow-y-auto">
+              <div
+                style={{
+                  maxHeight: "400px",
+                  overflowY: "auto",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "8px",
+                }}
+              >
                 {filteredPrestataires.map((prestataire) => (
                   <motion.div
                     key={prestataire.id}
                     whileHover={{ scale: 1.02 }}
-                    className={`p-3 rounded-lg border-2 cursor-pointer transition-all ${
-                      selectedPrestataires.includes(prestataire.id)
-                        ? "border-blue-500 bg-blue-50"
-                        : "border-slate-200 hover:border-slate-300 bg-white"
-                    }`}
+                    style={{
+                      padding: "12px",
+                      borderRadius: "8px",
+                      border: selectedPrestataires.includes(prestataire.id)
+                        ? "2px solid #667eea"
+                        : "2px solid #e2e8f0",
+                      background: selectedPrestataires.includes(prestataire.id)
+                        ? "#f0f9ff"
+                        : "white",
+                      cursor: "pointer",
+                      transition: "all 0.2s",
+                    }}
                     onClick={() => handleSelectPrestataire(prestataire.id)}
                   >
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <p className="font-semibold text-slate-800 text-sm">
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "start",
+                      }}
+                    >
+                      <div style={{ flex: 1 }}>
+                        <p
+                          style={{
+                            fontWeight: "600",
+                            color: "#1e293b",
+                            fontSize: "14px",
+                            margin: "0 0 4px 0",
+                          }}
+                        >
                           {prestataire.nom}
                         </p>
-                        <p className="text-xs text-slate-500">
+                        <p
+                          style={{
+                            fontSize: "12px",
+                            color: "#64748b",
+                            margin: "0 0 6px 0",
+                          }}
+                        >
                           {prestataire.email}
                         </p>
-                        <div className="flex gap-2 mt-1">
-                          <span className="px-2 py-0.5 bg-indigo-100 text-indigo-700 rounded text-xs">
-                            {prestataire.specialite}
-                          </span>
-                          <span className="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs">
-                            Note: {prestataire.noteGlobale}
-                          </span>
-                        </div>
+                        <span
+                          style={{
+                            padding: "2px 8px",
+                            background: "#e0e7ff",
+                            color: "#4338ca",
+                            borderRadius: "4px",
+                            fontSize: "11px",
+                            display: "inline-block",
+                          }}
+                        >
+                          {prestataire.specialite}
+                        </span>
                       </div>
                       <div
-                        className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
-                          selectedPrestataires.includes(prestataire.id)
-                            ? "border-blue-500 bg-blue-500"
-                            : "border-slate-300"
-                        }`}
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                          borderRadius: "4px",
+                          border: "2px solid",
+                          borderColor: selectedPrestataires.includes(
+                            prestataire.id
+                          )
+                            ? "#667eea"
+                            : "#cbd5e1",
+                          background: selectedPrestataires.includes(
+                            prestataire.id
+                          )
+                            ? "#667eea"
+                            : "transparent",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
                       >
                         {selectedPrestataires.includes(prestataire.id) && (
-                          <CheckCircle size={16} className="text-white" />
+                          <CheckCircle size={16} color="white" />
                         )}
                       </div>
                     </div>
@@ -288,27 +473,60 @@ const Notification = () => {
             </div>
           </motion.div>
 
-          {/* Section Formulaire de Notification */}
+          {/* Section Formulaire */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="lg:col-span-2"
           >
-            <div className="bg-white rounded-2xl shadow-lg p-6 border border-slate-200">
-              <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
-                <FileText size={20} className="text-blue-500" />
+            <div
+              style={{
+                background: "white",
+                borderRadius: "16px",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                padding: "24px",
+                border: "1px solid #e2e8f0",
+              }}
+            >
+              <h2
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  color: "#1e293b",
+                  marginBottom: "24px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                }}
+              >
+                <FileText size={20} color="#667eea" />
                 Contenu de la Notification
               </h2>
 
-              <form onSubmit={handleSubmit} className="space-y-5">
-                {/* Message de succès */}
+              <form
+                onSubmit={handleSubmit}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "20px",
+                }}
+              >
+                {/* Messages */}
                 <AnimatePresence>
                   {success && (
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
-                      className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl flex items-center gap-2"
+                      style={{
+                        background: "#f0fdf4",
+                        border: "1px solid #bbf7d0",
+                        color: "#15803d",
+                        padding: "12px 16px",
+                        borderRadius: "8px",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                      }}
                     >
                       <CheckCircle size={20} />
                       <span>Notifications envoyées avec succès !</span>
@@ -316,28 +534,51 @@ const Notification = () => {
                   )}
                 </AnimatePresence>
 
-                {/* Message d'erreur */}
                 {error && (
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl flex items-center gap-2"
+                    style={{
+                      background: "#fef2f2",
+                      border: "1px solid #fecaca",
+                      color: "#dc2626",
+                      padding: "12px 16px",
+                      borderRadius: "8px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                    }}
                   >
                     <AlertCircle size={20} />
                     <span>{error}</span>
                   </motion.div>
                 )}
 
-                {/* Type de notification */}
+                {/* Type */}
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  <label
+                    style={{
+                      display: "block",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      color: "#475569",
+                      marginBottom: "8px",
+                    }}
+                  >
                     Type de notification
                   </label>
                   <select
                     name="type"
                     value={notificationData.type}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:outline-none transition-all"
+                    style={{
+                      width: "100%",
+                      padding: "12px 16px",
+                      border: "2px solid #e2e8f0",
+                      borderRadius: "8px",
+                      outline: "none",
+                      fontSize: "14px",
+                    }}
                   >
                     <option value="evaluation">📊 Résultat d'évaluation</option>
                     <option value="alerte">⚠️ Alerte importante</option>
@@ -347,8 +588,16 @@ const Notification = () => {
 
                 {/* Titre */}
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">
-                    Titre <span className="text-red-500"></span>
+                  <label
+                    style={{
+                      display: "block",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      color: "#475569",
+                      marginBottom: "8px",
+                    }}
+                  >
+                    Titre <span style={{ color: "#ef4444" }}>*</span>
                   </label>
                   <input
                     type="text"
@@ -356,46 +605,63 @@ const Notification = () => {
                     value={notificationData.titre}
                     onChange={handleChange}
                     placeholder="Ex: Résultats de votre évaluation 2024"
-                    className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:outline-none transition-all"
+                    style={{
+                      width: "100%",
+                      padding: "12px 16px",
+                      border: "2px solid #e2e8f0",
+                      borderRadius: "8px",
+                      outline: "none",
+                      fontSize: "14px",
+                    }}
                   />
                 </div>
 
                 {/* Année */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                      <Calendar size={16} className="inline mr-1" />
-                      Année d'évaluation
-                    </label>
-                    <input
-                      type="number"
-                      name="annee"
-                      value={notificationData.annee}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:outline-none transition-all"
+                <div>
+                  <label
+                    style={{
+                      display: "block",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      color: "#475569",
+                      marginBottom: "8px",
+                    }}
+                  >
+                    <Calendar
+                      size={16}
+                      style={{ marginRight: "4px", verticalAlign: "middle" }}
                     />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                      <Award size={16} className="inline mr-1" />
-                      Note globale (optionnel)
-                    </label>
-                    <input
-                      type="text"
-                      name="noteGlobale"
-                      value={notificationData.noteGlobale}
-                      onChange={handleChange}
-                      placeholder="Ex: 85/100"
-                      className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:outline-none transition-all"
-                    />
-                  </div>
+                    Année d'évaluation
+                  </label>
+                  <input
+                    type="number"
+                    name="annee"
+                    value={notificationData.annee}
+                    onChange={handleChange}
+                    style={{
+                      width: "100%",
+                      padding: "12px 16px",
+                      border: "2px solid #e2e8f0",
+                      borderRadius: "8px",
+                      outline: "none",
+                      fontSize: "14px",
+                    }}
+                  />
                 </div>
 
-                {/* Message principal */}
+                {/* Message */}
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">
-                    Message principal <span className="text-red-500"></span>
+                  <label
+                    style={{
+                      display: "block",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      color: "#475569",
+                      marginBottom: "8px",
+                    }}
+                  >
+                    Message principal{" "}
+                    <span style={{ color: "#ef4444" }}>*</span>
                   </label>
                   <textarea
                     name="message"
@@ -403,13 +669,29 @@ const Notification = () => {
                     onChange={handleChange}
                     rows="6"
                     placeholder="Rédigez votre message ici..."
-                    className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:outline-none transition-all resize-none"
+                    style={{
+                      width: "100%",
+                      padding: "12px 16px",
+                      border: "2px solid #e2e8f0",
+                      borderRadius: "8px",
+                      outline: "none",
+                      fontSize: "14px",
+                      resize: "vertical",
+                    }}
                   />
                 </div>
 
-                {/* Détails supplémentaires */}
+                {/* Détails */}
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  <label
+                    style={{
+                      display: "block",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      color: "#475569",
+                      marginBottom: "8px",
+                    }}
+                  >
                     Détails supplémentaires (optionnel)
                   </label>
                   <textarea
@@ -418,49 +700,107 @@ const Notification = () => {
                     onChange={handleChange}
                     rows="4"
                     placeholder="Ajoutez des informations complémentaires..."
-                    className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:outline-none transition-all resize-none"
+                    style={{
+                      width: "100%",
+                      padding: "12px 16px",
+                      border: "2px solid #e2e8f0",
+                      borderRadius: "8px",
+                      outline: "none",
+                      fontSize: "14px",
+                      resize: "vertical",
+                    }}
                   />
                 </div>
 
                 {/* Aperçu */}
                 <div
-                  className={`p-4 rounded-xl bg-gradient-to-r ${getTypeColor(
-                    notificationData.type
-                  )} bg-opacity-10 border-2 border-opacity-20`}
+                  style={{
+                    padding: "16px",
+                    borderRadius: "12px",
+                    background: `linear-gradient(135deg, ${
+                      notificationData.type === "evaluation"
+                        ? "#dbeafe"
+                        : notificationData.type === "alerte"
+                        ? "#fee2e2"
+                        : "#dcfce7"
+                    }, white)`,
+                    border: "2px solid",
+                    borderColor:
+                      notificationData.type === "evaluation"
+                        ? "#93c5fd"
+                        : notificationData.type === "alerte"
+                        ? "#fca5a5"
+                        : "#86efac",
+                  }}
                 >
-                  <p className="text-sm font-semibold text-slate-600 mb-2">
+                  <p
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      color: "#64748b",
+                      marginBottom: "12px",
+                    }}
+                  >
                     📧 Aperçu de la notification
                   </p>
-                  <div className="bg-white p-4 rounded-lg">
-                    <h3 className="font-bold text-slate-800 mb-2">
+                  <div
+                    style={{
+                      background: "white",
+                      padding: "16px",
+                      borderRadius: "8px",
+                    }}
+                  >
+                    <h3
+                      style={{
+                        fontWeight: "bold",
+                        color: "#1e293b",
+                        marginBottom: "8px",
+                      }}
+                    >
                       {notificationData.titre || "Titre de la notification"}
                     </h3>
-                    <p className="text-sm text-slate-600 whitespace-pre-line">
+                    <p
+                      style={{
+                        fontSize: "14px",
+                        color: "#64748b",
+                        whiteSpace: "pre-line",
+                        margin: 0,
+                      }}
+                    >
                       {notificationData.message ||
                         "Votre message apparaîtra ici..."}
                     </p>
-                    {notificationData.noteGlobale && (
-                      <div className="mt-3 flex items-center gap-2">
-                        <Award size={16} className="text-yellow-500" />
-                        <span className="text-sm font-semibold">
-                          Note: {notificationData.noteGlobale}
-                        </span>
-                      </div>
-                    )}
                   </div>
                 </div>
 
-                {/* Bouton d'envoi */}
+                {/* Bouton */}
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   type="submit"
                   disabled={sending || selectedPrestataires.length === 0}
-                  className={`w-full py-3 rounded-xl font-semibold shadow-lg transition-all flex items-center justify-center gap-2 ${
-                    sending || selectedPrestataires.length === 0
-                      ? "bg-slate-300 cursor-not-allowed"
-                      : "bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white"
-                  }`}
+                  style={{
+                    width: "100%",
+                    padding: "14px",
+                    borderRadius: "12px",
+                    fontWeight: "600",
+                    fontSize: "16px",
+                    border: "none",
+                    cursor:
+                      sending || selectedPrestataires.length === 0
+                        ? "not-allowed"
+                        : "pointer",
+                    background:
+                      sending || selectedPrestataires.length === 0
+                        ? "#cbd5e1"
+                        : "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                    color: "white",
+                    boxShadow: "0 4px 12px rgba(102, 126, 234, 0.4)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "8px",
+                  }}
                 >
                   {sending ? (
                     <>
@@ -471,7 +811,13 @@ const Notification = () => {
                           repeat: Infinity,
                           ease: "linear",
                         }}
-                        className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                          border: "2px solid white",
+                          borderTopColor: "transparent",
+                          borderRadius: "50%",
+                        }}
                       />
                       <span>Envoi en cours...</span>
                     </>
@@ -489,6 +835,13 @@ const Notification = () => {
           </motion.div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 };

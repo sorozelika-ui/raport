@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
-import {
-  Home,
+import {Home,
   Users,
   CheckCircle,
   ChevronRight,
@@ -13,8 +12,7 @@ import {
   Star,
   LogOut,
   User as UserIcon,
-  Bell
-} from "lucide-react";
+   Bell} from "lucide-react";
 
 const Layout = ({ children }) => {
   const [openMenus, setOpenMenus] = useState({
@@ -201,7 +199,7 @@ const Layout = ({ children }) => {
                     onClick={() => handleNavigation("/evaluation")}
                     className="w-full flex items-center gap-3 p-3 text-sm bg-white bg-opacity-5 rounded-lg"
                   >
-                    <Star size={16} /> Évaluer un prestataire
+                    <star size={16} /> Évaluer un prestataire
                   </button>
 
                   <button
@@ -232,7 +230,7 @@ const Layout = ({ children }) => {
                       isActive("/note") ? "bg-opacity-15" : ""
                     }`}
                   >
-                    <Star size={16} className="text-orange-300" />
+                    <star size={16} className="text-orange-300" />
                     <span>Liste des notes</span>
                   </motion.button>
                   <motion.button
