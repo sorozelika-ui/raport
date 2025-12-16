@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import {Panel,SelectPicker,Button,Message,toaster,Loader,CheckPicker,Toggle,Divider} from "rsuite";
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import {Panel,SelectPicker,Button,Message,toaster,Loader,CheckPicker,pickerStyle,Toggle,Divider,} from "rsuite";
+import {LineChart,Line,BarChart,Bar,XAxis,YAxis,CartesianGrid,Tooltip,Legend,ResponsiveContainer,} from "recharts";
 import { TrendingUp, Users, Calendar, Award, BarChart3 } from "lucide-react";
 import axios from "axios";
 
@@ -17,11 +17,7 @@ const GraphiqueEvolution = () => {
   const [statistics, setStatistics] = useState(null);
 
   // Couleurs pour les différents prestataires
-  const colors = [
-    "#667eea", "#764ba2", "#f093fb", "#4facfe", 
-    "#43e97b", "#fa709a", "#30cfd0", "#a8edea",
-    "#ff6b6b", "#4ecdc4", "#45b7d1", "#f7b731"
-  ];
+  const colors = ["#667eea","#764ba2","#f093fb","#4facfe","#43e97b","#fa709a","#30cfd0","#a8edea","#ff6b6b","#4ecdc4","#45b7d1","#f7b731",];
 
   useEffect(() => {
     loadInitialData();
@@ -32,24 +28,28 @@ const GraphiqueEvolution = () => {
     try {
       const [prestRes, anneeRes] = await Promise.all([
         axios.get("http://127.0.0.1:8000/api/prestataire"),
-        axios.get("http://127.0.0.1:8000/api/ANNEE")
+        axios.get("http://127.0.0.1:8000/api/ANNEE"),
       ]);
 
-      const prestData = Array.isArray(prestRes.data) ? prestRes.data : prestRes.data.data || [];
+      const prestData = Array.isArray(prestRes.data)
+        ? prestRes.data
+        : prestRes.data.data || [];
       setPrestataires(
         prestData.map((p) => ({
           label: `${p.nom} - ${p.specialite}`,
           value: p.id,
-          data: p
+          data: p,
         }))
       );
 
-      const anneeData = Array.isArray(anneeRes.data) ? anneeRes.data : anneeRes.data.data || [];
+      const anneeData = Array.isArray(anneeRes.data)
+        ? anneeRes.data
+        : anneeRes.data.data || [];
       setAnnees(
         anneeData.map((a) => ({
           label: String(a.liban || a.annee),
           value: a.id,
-          annee: a.liban || a.annee
+          annee: a.liban || a.annee,
         }))
       );
     } catch (error) {
@@ -88,7 +88,9 @@ const GraphiqueEvolution = () => {
     try {
       // Récupérer les données pour chaque prestataire sélectionné
       const promises = selectedPrestataires.map((prestId) =>
-        axios.get(`http://127.0.0.1:8000/api/evaluations/prestataire/${prestId}`)
+        axios.get(
+          `http://127.0.0.1:8000/api/evaluations/prestataire/${prestId}`
+        )
       );
 
       const responses = await Promise.all(promises);
@@ -99,7 +101,7 @@ const GraphiqueEvolution = () => {
         totalEvaluations: 0,
         prestatairesMoyenneMax: null,
         prestatairesMoyenneMin: null,
-        moyenneGlobale: 0
+        moyenneGlobale: 0,
       };
 
       let totalMoyennes = 0;
@@ -112,7 +114,7 @@ const GraphiqueEvolution = () => {
         const anneeLabel = anneeInfo?.annee || anneeId;
 
         const dataPoint = {
-          annee: anneeLabel
+          annee: anneeLabel,
         };
 
         selectedPrestataires.forEach((prestId, index) => {
@@ -142,12 +144,18 @@ const GraphiqueEvolution = () => {
 
             if (parseFloat(moyenne) > maxMoyenne) {
               maxMoyenne = parseFloat(moyenne);
-              stats.prestatairesMoyenneMax = { nom: prestNom, moyenne: parseFloat(moyenne) };
+              stats.prestatairesMoyenneMax = {
+                nom: prestNom,
+                moyenne: parseFloat(moyenne),
+              };
             }
 
             if (parseFloat(moyenne) < minMoyenne) {
               minMoyenne = parseFloat(moyenne);
-              stats.prestatairesMoyenneMin = { nom: prestNom, moyenne: parseFloat(moyenne) };
+              stats.prestatairesMoyenneMin = {
+                nom: prestNom,
+                moyenne: parseFloat(moyenne),
+              };
             }
           } else {
             dataPoint[prestNom] = null; // Pas évalué cette année
@@ -157,7 +165,8 @@ const GraphiqueEvolution = () => {
         chartData.push(dataPoint);
       });
 
-      stats.moyenneGlobale = countMoyennes > 0 ? (totalMoyennes / countMoyennes).toFixed(2) : 0;
+      stats.moyenneGlobale =
+        countMoyennes > 0 ? (totalMoyennes / countMoyennes).toFixed(2) : 0;
 
       setGraphData(chartData);
       setStatistics(stats);
@@ -188,15 +197,22 @@ const GraphiqueEvolution = () => {
             padding: "15px",
             border: "2px solid #667eea",
             borderRadius: "8px",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.15)"
+            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
           }}
         >
-          <p style={{ fontWeight: "bold", marginBottom: "10px", color: "#1e293b" }}>
+          <p
+            style={{
+              fontWeight: "bold",
+              marginBottom: "10px",
+              color: "#1e293b",
+            }}
+          >
             Année {label}
           </p>
           {payload.map((entry, index) => (
             <p key={index} style={{ color: entry.color, margin: "5px 0" }}>
-              <strong>{entry.name}:</strong> {entry.value !== null ? `${entry.value}/20` : "Non évalué"}
+              <strong>{entry.name}:</strong>{" "}
+              {entry.value !== null ? `${entry.value}/20` : "Non évalué"}
             </p>
           ))}
         </div>
@@ -207,7 +223,14 @@ const GraphiqueEvolution = () => {
 
   if (loading) {
     return (
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "400px" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "400px",
+        }}
+      >
         <Loader size="lg" content="Chargement..." />
       </div>
     );
@@ -282,7 +305,18 @@ const GraphiqueEvolution = () => {
               placeholder="Choisir les prestataires..."
               block
               searchable
-              style={{ width: "100%" }}
+              style={pickerStyle}
+              menuStyle={{ maxHeight: 220 }}
+              renderValue={(value, items) =>
+                !items?.length ? (
+                  <span style={{ color: "black" }}>
+                    Choisir les prestataires
+                  </span>
+                ) : items.length === 1 ? (
+                  items[0].label
+                ) : (
+                  `${items.length} prestataires sélectionnés`)
+              }
             />
           </div>
 
@@ -308,7 +342,7 @@ const GraphiqueEvolution = () => {
               placeholder="Choisir les années..."
               block
               searchable
-              style={{ width: "100%" }}
+             
             />
           </div>
         </div>
@@ -390,7 +424,7 @@ const GraphiqueEvolution = () => {
               textAlign: "center",
               padding: "20px",
             }}
-          >
+           >
             <TrendingUp size={32} style={{ marginBottom: "10px" }} />
             <div style={{ fontSize: "20px", fontWeight: "bold" }}>
               {statistics.prestatairesMoyenneMax?.nom || "N/A"}

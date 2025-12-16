@@ -87,7 +87,7 @@ const Login = () => {
         transition={{ duration: 0.6 }}
         className="relative w-full max-w-md"
       >
-        {/* Card de connexion */}
+        {/* Card de connexion logo */}
         <div className="bg-slate-800 bg-opacity-50 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden border border-white border-opacity-10">
           {/* En-tête avec dégradé */}
           <motion.div
@@ -103,7 +103,8 @@ const Login = () => {
               className="flex justify-center mb-4"
             >
               <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center backdrop-blur-sm shadow-lg">
-                <Shield size={40} className="text-white" />
+                <Shield size={40} className="text-white" // icone du haut dans la connexion
+                 />
               </div>
             </motion.div>
             <h1 className="text-3xl font-bold text-center mb-2 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
@@ -140,17 +141,22 @@ const Login = () => {
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 0.5 }}
               >
-                <label className="block text-sm font-semibold text-slate-300 mb-2">
+                <label
+                  className="block text-sm font-semibold text-slate-300 mb-2" //boite de message icone
+                >
                   Adresse email
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Mail size={20} className="text-slate-400" />
+                    <Mail
+                      size={20}
+                      className="text-slate-400" //icone pour le mail
+                    />
                   </div>
                   <input
                     type="email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value)} //setemail modifier la valeur de l'email envoyée
                     placeholder="votre@email.com"
                     required
                     className="w-full pl-12 pr-4 py-3 bg-slate-700 bg-opacity-50 border-2 border-slate-600 text-white rounded-xl focus:border-blue-500 focus:outline-none transition-all duration-300 placeholder-slate-400"
@@ -164,7 +170,9 @@ const Login = () => {
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 0.6 }}
               >
-                <label className="block text-sm font-semibold text-slate-300 mb-2">
+                <label
+                  className="block text-sm font-semibold text-slate-300 mb-2" // cadenard véroullé
+                >
                   Mot de passe
                 </label>
                 <div className="relative">
@@ -174,17 +182,18 @@ const Login = () => {
                   <input
                     type={showPassword ? "text" : "password"}
                     value={passwordd}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)} //setPassword la valeur du mot de passe envoyée
                     placeholder="minimum 5 caractères"
                     required
                     className="w-full pl-12 pr-12 py-3 bg-slate-700 bg-opacity-50 border-2 border-slate-600 text-white rounded-xl focus:border-blue-500 focus:outline-none transition-all duration-300 placeholder-slate-400"
                   />
                   <button
                     type="button"
-                    onClick={() => setShowPassword(!showPassword)}
+                    onClick={() => setShowPassword(!showPassword)} // verifie la valeur du mot de passe envoyée
                     className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-white transition-colors"
                   >
-                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} //icone afficher le mot de passe ou le masquer
+                    />}
                   </button>
                 </div>
               </motion.div>
@@ -196,8 +205,8 @@ const Login = () => {
                 transition={{ delay: 0.7 }}
                 className="flex items-center justify-end text-sm"
               >
-                <a
-                  href="#"
+                <a // pas encore pris en charge: page pour recuperer le mot de passe 
+                  href="oublie"
                   className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
                 >
                   Mot de passe oublié ?
@@ -215,7 +224,7 @@ const Login = () => {
                 disabled={isLoading}
                 className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                {isLoading ? (
+                {isLoading ? ( //permet de mettre le button qui tourne pendant la connexion
                   <>
                     <motion.div
                       animate={{ rotate: 360 }}

@@ -1,18 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
-import {Home,
-  Users,
-  CheckCircle,
-  ChevronRight,
-  ChevronDown,
-  FileText,
-  Award,
-  Calendar,
-  Star,
-  LogOut,
-  User as UserIcon,
-   Bell} from "lucide-react";
+import {Home,Users,CheckCircle,ChevronRight,ChevronDown,FileText,Award,Calendar,Star,LogOut,User as UserIcon,Bell,} from "lucide-react";
 
 const Layout = ({ children }) => {
   const [openMenus, setOpenMenus] = useState({
@@ -78,7 +67,7 @@ const Layout = ({ children }) => {
           >
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center">
-                <UserIcon size={24} />
+                <UserIcon size={20} className="text-orange-300"/>
               </div>
               <div className="flex-1">
                 <p className="font-semibold text-sm">
@@ -101,7 +90,7 @@ const Layout = ({ children }) => {
             }`}
           >
             <div className="flex items-center gap-3">
-              <Home size={20} />
+              <Home size={20} className="text-orange-300" />
               <span className="font-medium">Accueil</span>
             </div>
             <ChevronRight size={18} />
@@ -115,7 +104,7 @@ const Layout = ({ children }) => {
               className="w-full flex items-center justify-between p-4 rounded-xl bg-white bg-opacity-5 border border-white border-opacity-10"
             >
               <div className="flex items-center gap-3">
-                <Users size={20} />
+                <Users size={20} className="text-orange-300" />
                 <span className="font-medium">Prestataires</span>
               </div>
               <motion.div
@@ -139,21 +128,24 @@ const Layout = ({ children }) => {
                     onClick={() => handleNavigation("/login")}
                     className="w-full flex items-center gap-3 p-3 text-sm bg-white bg-opacity-5 rounded-lg"
                   >
-                    <FileText size={16} /> Connectez-vous
+                    <FileText size={16} className="text-orange-300" />{" "}
+                    Connectez-vous
                   </button>
 
                   <button
                     onClick={() => handleNavigation("/inscription")}
                     className="w-full flex items-center gap-3 p-3 text-sm bg-white bg-opacity-5 rounded-lg"
                   >
-                    <FileText size={16} /> Inscrivez-vous ici
+                    <FileText size={16} className="text-orange-300" />{" "}
+                    Inscrivez-vous ici
                   </button>
 
                   <button
                     onClick={() => handleNavigation("/consulter-resultat")}
                     className="w-full flex items-center gap-3 p-3 text-sm bg-white bg-opacity-5 rounded-lg"
                   >
-                    <Award size={16} /> Consulter mon résultat
+                    <Award size={16} className="text-orange-300" /> Consulter
+                    mon résultat
                   </button>
                 </motion.div>
               )}
@@ -168,7 +160,7 @@ const Layout = ({ children }) => {
               className="w-full flex items-center justify-between p-4 rounded-xl bg-white bg-opacity-5 border border-white border-opacity-10"
             >
               <div className="flex items-center gap-3">
-                <CheckCircle size={20} />
+                <CheckCircle size={20} className="text-orange-300" />
                 <span className="font-medium">Évaluateurs</span>
               </div>
               <motion.div
@@ -192,35 +184,40 @@ const Layout = ({ children }) => {
                     onClick={() => handleNavigation("/prestataire_evalues")}
                     className="w-full flex items-center gap-3 p-3 text-sm bg-white bg-opacity-5 rounded-lg"
                   >
-                    <Users size={16} /> Prestataires évalués
+                    <Users size={16} className="text-orange-300" /> Prestataires
+                    évalués
                   </button>
 
                   <button
                     onClick={() => handleNavigation("/evaluation")}
                     className="w-full flex items-center gap-3 p-3 text-sm bg-white bg-opacity-5 rounded-lg"
                   >
-                    <star size={16} /> Évaluer un prestataire
+                    <Star size={16} className="text-orange-300" /> Évaluer un
+                    prestataire
                   </button>
 
                   <button
                     onClick={() => handleNavigation("/prestataires")}
                     className="w-full flex items-center gap-3 p-3 text-sm bg-white bg-opacity-5 rounded-lg"
                   >
-                    <Users size={16} /> Liste des prestataires
+                    <Users size={16} className="text-orange-300" /> Liste des
+                    prestataires
                   </button>
 
                   <button
                     onClick={() => handleNavigation("/critere")}
                     className="w-full flex items-center gap-3 p-3 text-sm bg-white bg-opacity-5 rounded-lg"
                   >
-                    <FileText size={16} /> Liste des Critères
+                    <FileText size={16} className="text-orange-300" /> Liste des
+                    Critères
                   </button>
 
                   <button
                     onClick={() => handleNavigation("/annee")}
                     className="w-full flex items-center gap-3 p-3 text-sm bg-white bg-opacity-5 rounded-lg"
                   >
-                    <Calendar size={16} /> Liste des années
+                    <Calendar size={16} className="text-orange-300" /> Liste des
+                    années
                   </button>
 
                   <motion.button
@@ -230,14 +227,14 @@ const Layout = ({ children }) => {
                       isActive("/note") ? "bg-opacity-15" : ""
                     }`}
                   >
-                    <star size={16} className="text-orange-300" />
+                    <Star size={16} className="text-orange-300" />
                     <span>Liste des notes</span>
                   </motion.button>
                   <motion.button
                     onClick={() => handleNavigation("/notification")}
                     className="w-full flex items-center gap-3 p-3 text-sm bg-white bg-opacity-5 rounded-lg"
                   >
-                    <Bell size={16} /> Notification
+                    <Bell size={16} className="text-orange-300" /> Notification
                   </motion.button>
                 </motion.div>
               )}
