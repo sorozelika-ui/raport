@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
-import Login from "./pages/Login";
+// import Login from "./pages/Login";
 import Inscription from "./pages/Inscription";
 import Critere from "./pages/Critere";
 import Annee from "./pages/Annee";
@@ -13,7 +13,7 @@ import PrestatairesEvalues from "./pages/Prestataires_evalues";
 import Consulter from "./pages/Consulter";
 import Notification from "./pages/Notification";
 import EvolutionPrestataire from "./pages/EvolutionPrestataire";
-
+import Login from "./pages/Login";
 
 // 🔐 Vérifie si l'utilisateur est connecté
 const isAuthenticated = () => {
