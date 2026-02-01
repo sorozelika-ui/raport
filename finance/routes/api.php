@@ -8,7 +8,7 @@ use App\Http\Controllers\notecontroller;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NotificationController;
-
+use App\Http\Controllers\PasswordResetController;
 
 // Routes d'authentification
 Route::post('/inscription', [AuthController::class, 'inscription']);
@@ -75,3 +75,7 @@ Route::get('/notifications/prestataire/{id}', [NotificationController::class, 'g
 Route::put('/notifications/{id}/read', [NotificationController::class, 'reads']);
 Route::put('/notifications/prestataire/{id}/read-all', [NotificationController::class, 'AsRead']);
 
+
+// Routes pour la réinitialisation de mot de passe
+Route::post('/forgot-password', [PasswordResetController::class, 'forgotPassword']);
+Route::post('/reset-password', [PasswordResetController::class, 'resetPassword']);
