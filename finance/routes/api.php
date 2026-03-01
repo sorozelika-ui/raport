@@ -56,7 +56,7 @@ Route::get('/criteres/{typePrestataireId}/{anneeId}', [EvaluationController::cla
 // Enregistrer une évaluation (nouvelle API)
 Route::post('/evaluations/create',[EvaluationController::class, 'createEvaluation']);
 
-Route::get('/evaluations/initial',[EvaluationController::class,'initialData']);
+Route::get('/evaluations/initial', [EvaluationController::class, 'initialData']);
 Route::get('/criteres-by-prestataire/{prestataire}/{annee?}',[EvaluationController::class,'criteresByPrestataire']);
 //Route::get('/prestataires-evalues', [EvaluationController::class, 'prestatairesAvecMoyenne']);
 

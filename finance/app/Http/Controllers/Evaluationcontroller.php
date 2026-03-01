@@ -195,6 +195,18 @@ class EvaluationController extends Controller
         return response()->json($evaluations);
     }
 
+    public function initialData()
+{
+    return response()->json([
+        'prestataires' => \App\Models\type_prestataire::all(),
+        'annees'       => \App\Models\ANNEE::all(),
+        'criteres'     => \App\Models\critere::all(),
+        'evaluations'  => \App\Models\affichage::select('type_prestataire_id', 'annees_id')
+                            ->distinct()
+                            ->get(),
+    ]);
+}
+
     //modification
     public function show($id)
     {
