@@ -73,6 +73,7 @@ const Dashboard = () => {
               y: -4,
               boxShadow: "0 20px 40px rgba(99, 102, 241, 0.2)",
             }}
+            onClick={() => navigate("/prestataires")}
             className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100"
           >
             <div className="flex items-center gap-4">
@@ -93,6 +94,7 @@ const Dashboard = () => {
               y: -4,
               boxShadow: "0 20px 40px rgba(79, 70, 229, 0.2)",
             }}
+            onClick={() => navigate("/prestataire_evalues")}
             className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100"
           >
             <div className="flex items-center gap-4">

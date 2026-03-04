@@ -42,3 +42,11 @@
 #datepicker .rs-picker-popup .rs-calendar .rs-calendar-table-cell-selected:hover .rs-calendar-table-cell-content {
     background-color: #0dd64a !important;
 }
+.custom-toggle.rs-toggle-checked .rs-toggle-presentation {
+  background-color: rgba(59, 131, 246, 0.2) !important;
+  border-color: #0f2f61 !important;
+}
+
+.custom-toggle.rs-toggle-checked .rs-toggle-inner {
+  background-color: #0f2f61 !important;
+}

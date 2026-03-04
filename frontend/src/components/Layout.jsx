@@ -760,7 +760,14 @@ const Layout = ({ children }) => {
                     <Award size={16} className="text-orange-300" /> Consulter
                     mon résultat
                   </button>
+                   <button
+                    onClick={() => handleNavigation("/prestataire/notifications")}
+                    className="w-full flex items-center gap-3 p-3 text-sm bg-white bg-opacity-5 rounded-lg hover:bg-opacity-10 transition-all"
+                  >
+                    <Award size={16} className="text-orange-300" /> Boite de reception
+                  </button>
                 </motion.div>
+                
               )}
             </AnimatePresence>
           </div>
@@ -852,7 +859,7 @@ const Layout = ({ children }) => {
                   </motion.button>
                   
                   <motion.button
-                    onClick={() => handleAdminNavigation("/notification")}
+                    onClick={() => handleAdminNavigation("/admin/notification")}
                     className="w-full flex items-center gap-3 p-3 text-sm bg-white bg-opacity-5 rounded-lg hover:bg-opacity-10 transition-all"
                   >
                     <Bell size={16} className="text-orange-300" /> Notification

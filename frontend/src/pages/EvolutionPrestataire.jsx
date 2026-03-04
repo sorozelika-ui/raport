@@ -1,27 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import {
-  Panel,
-  Button,
-  Message,
-  toaster,
-  Loader,
-  CheckPicker,
-  Toggle,
-  Divider,
-} from "rsuite";
-import {
-  LineChart,
-  Line,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
+import {Panel,Button,Message,toaster,Loader,CheckPicker,Toggle,Divider,} from "rsuite";
+import {LineChart,Line,BarChart,Bar,XAxis,YAxis,CartesianGrid,Tooltip,Legend,ResponsiveContainer,} from "recharts";
 import { TrendingUp, Users, Calendar, Award, BarChart3 } from "lucide-react";
 import axios from "axios";
 
@@ -45,14 +25,22 @@ const GraphiqueEvolution = () => {
   const [statistics, setStatistics] = useState(null);
 
   const colors = [
-    "#667eea",
-    "#764ba2",
-    "#f093fb",
-    "#4facfe",
-    "#43e97b",
-    "#fa709a",
-    "#30cfd0",
-    "#a8edea",
+    // "#667eea",
+    // "#764ba2",
+    // "#f093fb",
+    // "#4facfe",
+    // "#43e97b",
+    // "#fa709a",
+    // "#30cfd0",
+    // "#a8edea",
+       "#E67E30",
+       "#88421D",
+       "#E21313",
+       "#CF0A1D",
+       "#	FD	EE	00",
+       "#	E7	F0	0D",
+       "#	FF	F0	BC",
+       "#	FA	F0	E6",
   ];
 
   useEffect(() => {
@@ -176,6 +164,22 @@ const GraphiqueEvolution = () => {
 
   return (
     <div style={{ maxWidth: 1500, margin: "auto", padding: 20 }}>
+      <motion.h2
+  initial={{ opacity: 0, y: -20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.5 }}
+  style={{
+          fontSize: "32px",
+          fontWeight: "bold",
+          backgroundcolor: "rgba(59, 130, 246, 0.2)",
+          WebkitBackgroundClip: "text",
+          marginBottom: "25px",
+    
+  }}
+>
+  {/* <BarChart3 size={24} style={{ marginRight: 8 }} /> */}
+  Évolution des Prestataires
+</motion.h2>
       <Panel bordered>
         <label><Users size={16} /> Prestataires</label>
         <CheckPicker
@@ -198,19 +202,28 @@ const GraphiqueEvolution = () => {
         />
 
         <Divider />
-
-        <Toggle
-          checked={showBarChart}
-          onChange={setShowBarChart}
-          checkedChildren="Barres"
-          unCheckedChildren="Courbes"
-        />
+<Toggle
+  checked={showBarChart}
+  onChange={setShowBarChart}
+  checkedChildren="Barres"
+  unCheckedChildren="Courbes"
+  className="custom-toggle"
+/>
 
         <Button
-          appearance="primary"
+        appearance="primary"
+          style={{
+            backgroundColor:
+              "rgba(59, 131, 246, 0.2)",
+            color: "black",
+            borderRadius: "6px",
+            padding: "8px 14px",}}
+          // appearance="primary"
+          // onClick={handleGenerateGraph}
+          // loading={loadingGraph}
+          // style={{ marginTop: 15 }}
           onClick={handleGenerateGraph}
           loading={loadingGraph}
-          style={{ marginTop: 15 }}
         >
           <TrendingUp /> Générer
         </Button>

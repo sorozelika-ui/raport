@@ -223,8 +223,9 @@ const Prestataires = () => {
           <Loader size="lg" content="Chargement..." />
         </div>
       ) : (
+       
         <Table
-          height={880}
+          height={870}
           data={data}
           bordered
           cellBordered
@@ -234,7 +235,7 @@ const Prestataires = () => {
             boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1)",
           }}
         >
-          <Column width={50} align="center" fixed>
+          {/* <Column width={40} align="center" fixed>
             <HeaderCell
               style={{
                 background: "rgba(59, 130, 246, 0.2)",
@@ -308,8 +309,66 @@ const Prestataires = () => {
               telephone
             </HeaderCell>
             <Cell dataKey="telephone" />
-          </Column>
+          </Column> */}
+<Column width={70} align="center">
+   <HeaderCell
+              style={{
+                background: "rgba(59, 131, 246, 0.2)",
+                color: "black",
+                fontWeight: "bold",
+              }}>ID</HeaderCell>
+  <Cell dataKey="id" />
+</Column>
 
+<Column width={180}>
+   <HeaderCell
+              style={{
+                background: "rgba(59, 131, 246, 0.2)",
+                color: "black",
+                fontWeight: "bold",
+              }}>Nom</HeaderCell>
+  <Cell dataKey="nom" />
+</Column>
+
+<Column width={180}>
+   <HeaderCell
+              style={{
+                background: "rgba(59, 131, 246, 0.2)",
+                color: "black",
+                fontWeight: "bold",
+              }}>Email</HeaderCell>
+  <Cell dataKey="email" />
+</Column>
+
+<Column width={140}>
+   <HeaderCell
+              style={{
+                background: "rgba(59, 131, 246, 0.2)",
+                color: "black",
+                fontWeight: "bold",
+              }}>Téléphone</HeaderCell>
+  <Cell dataKey="telephone" />
+</Column>
+
+<Column width={180}>
+  <HeaderCell
+              style={{
+                background: "rgba(59, 131, 246, 0.2)",
+                color: "black",
+                fontWeight: "bold",
+              }}>Spécialité</HeaderCell>
+  <Cell dataKey="specialite" />
+</Column>
+
+<Column width={200}>
+  <HeaderCell
+              style={{
+                background: "rgba(59, 131, 246, 0.2)",
+                color: "black",
+                fontWeight: "bold",
+              }}>Adresse</HeaderCell>
+  <Cell dataKey="addresse" />
+</Column>
           <Column width={180} fixed="right">
             <HeaderCell
               style={{

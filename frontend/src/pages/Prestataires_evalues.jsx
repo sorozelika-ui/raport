@@ -68,25 +68,45 @@ const PrestatairesEvalues = () => {
 
           
           <Column width={150} fixed>
-            <HeaderCell>Prestataire</HeaderCell>
+            <HeaderCell
+              style={{
+                background: "rgba(59, 131, 246, 0.2)",
+                color: "black",
+                fontWeight: "bold",
+              }}>Prestataire</HeaderCell>
             <Cell dataKey="prestataire" />
           </Column>
 
          
           <Column width={100} align="center">
-            <HeaderCell>Année</HeaderCell>
+            <HeaderCell
+              style={{
+                background: "rgba(59, 131, 246, 0.2)",
+                color: "black",
+                fontWeight: "bold",
+              }}>Année</HeaderCell>
             <Cell dataKey="annee" />
           </Column>
 
           
           <Column width={200}>
-            <HeaderCell>Spécialité</HeaderCell>
+             <HeaderCell
+              style={{
+                background: "rgba(59, 131, 246, 0.2)",
+                color: "black",
+                fontWeight: "bold",
+              }}>Spécialité</HeaderCell>
             <Cell dataKey="specialite" />
           </Column>
 
           
           <Column width={220}>
-            <HeaderCell>Critères & Note</HeaderCell>
+             <HeaderCell
+              style={{
+                background: "rgba(59, 131, 246, 0.2)",
+                color: "black",
+                fontWeight: "bold",
+              }}>Critères & Note</HeaderCell>
             <Cell>
               {(row) =>
                 row.critere && row.note
@@ -98,7 +118,12 @@ const PrestatairesEvalues = () => {
 
          
           <Column width={120} align="center">
-            <HeaderCell>Moyenne</HeaderCell>
+             <HeaderCell
+              style={{
+                background: "rgba(59, 131, 246, 0.2)",
+                color: "black",
+                fontWeight: "bold",
+              }}>Moyenne</HeaderCell>
             <Cell>
               {(row) =>
                 row.moyenne != null ? Number(row.moyenne).toFixed(2) : "-"
