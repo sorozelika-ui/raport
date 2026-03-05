@@ -15,7 +15,6 @@ import EvolutionPrestataire from "./pages/EvolutionPrestataire";
 import Login from "./pages/Login";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import ForgotPassword from "./pages/ForgotPassword";
-// Dans votre router (ex: App.jsx ou routes.jsx)
 import NotificationAdmin from "./pages/NotificationAdmin";
 import Notificationinbox from "./pages/Notificationinbox";
 
@@ -32,7 +31,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/inscription" element={<Inscription />} />
          <Route path="/forgot-password" element={<ForgotPassword />} />
-        {/* Redirection automatique vers /dashboard si connecté */}
+        {/* Redirection automatique vers /dashboard */}
         <Route
           path="/"
           element={
