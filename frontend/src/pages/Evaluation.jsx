@@ -630,7 +630,7 @@ const Evaluation = () => {
   const loadInitialData = async () => {
     setLoading(true);
     try {
-      // Un seul appel qui retourne tout : prestataires, annees, criteres, evaluations existantes
+      // api prestataires, annees, criteres, evaluations existantes
       const [initialRes, noteRes] = await Promise.all([
         axios.get("http://127.0.0.1:8000/api/evaluations/initial"),
         axios.get("http://127.0.0.1:8000/api/note"),
@@ -639,7 +639,7 @@ const Evaluation = () => {
       const initial = initialRes.data;
 
       // Compatibilité selon structure retournée par initialData()
-      // ex: { prestataires: [...], annees: [...], criteres: [...], evaluations: [...] }
+      // prestataires, annees, criteres, evaluations
       const prestData   = initial.prestataires   ?? initial.data?.prestataires   ?? [];
       const anneeData   = initial.annees         ?? initial.data?.annees         ?? [];
       const critereData = initial.criteres       ?? initial.data?.criteres       ?? [];
@@ -690,7 +690,7 @@ const Evaluation = () => {
     }
   };
 
-  // ── Vérifie si la combinaison prestataire + année existe déjà ──
+  //  Vérifie si prestataire + année existe déjà 
   const dejaEvalue = (prestataireId, anneeId) => {
     if (!prestataireId || !anneeId) return false;
     return evaluationsExistantes.some(
@@ -708,7 +708,7 @@ const Evaluation = () => {
       const anneeLabel = annees.find((a) => a.value === selectedAnnee)?.label || "cette année";
       toaster.push(
         <Message type="warning" showIcon duration={5000}>
-          ⚠️ <strong>{nom}</strong> a déjà été évalué pour <strong>{anneeLabel}</strong>.
+           <strong>{nom}</strong> a déjà été évalué pour <strong>{anneeLabel}</strong>.
         </Message>
       );
     }
@@ -721,7 +721,7 @@ const Evaluation = () => {
       const anneeLabel = annees.find((a) => a.value === value)?.label || "cette année";
       toaster.push(
         <Message type="warning" showIcon duration={5000}>
-          ⚠️ <strong>{nom}</strong> a déjà été évalué pour <strong>{anneeLabel}</strong>.
+           <strong>{nom}</strong> a déjà été évalué pour <strong>{anneeLabel}</strong>.
         </Message>
       );
     }
@@ -789,7 +789,7 @@ const Evaluation = () => {
       return false;
     }
     if (selectedCriteres.length !== 5) {
-      toaster.push(<Message type="warning" showIcon>Vous devez évaluer exactement 5 critères</Message>);
+      toaster.push(<Message type="warning" showIcon>Vous devez évaluer un prestataire sur exactement 5 critères</Message>);
       return false;
     }
 
@@ -820,7 +820,7 @@ const Evaluation = () => {
       const anneeLabel = annees.find((a) => a.value === selectedAnnee)?.label || "cette année";
       toaster.push(
         <Message type="error" showIcon duration={6000}>
-          🚫 <strong>{nom}</strong> a déjà été évalué pour l'année <strong>{anneeLabel}</strong>.
+           <strong>{nom}</strong> a déjà été évalué pour l'année <strong>{anneeLabel}</strong>.
           Une seule évaluation par prestataire et par année est autorisée.
         </Message>
       );
@@ -873,7 +873,8 @@ const Evaluation = () => {
 
   if (loading) {
     return (
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "400px" }}>
+      <div style={{ display: "flex", justifyContent: "center",
+       alignItems: "center", minHeight: "400px" }}>
         <Loader size="lg" content="Chargement..." />
       </div>
     );
@@ -931,7 +932,7 @@ const Evaluation = () => {
             />
           </Form.Group>
 
-          {/* ── Bandeau d'alerte doublon ── */}
+          {/* alerte doublon  */}
           {doublon && (
             <motion.div
               initial={{ opacity: 0, y: -8 }}
@@ -950,7 +951,7 @@ const Evaluation = () => {
             >
               <AlertCircle size={20} />
               <span style={{ fontWeight: "600" }}>
-                Ce prestataire a déjà été évalué pour cette année. L'enregistrement est bloqué.
+                Ce prestataire a déjà été évalué pour cette année.
               </span>
             </motion.div>
           )}
@@ -972,7 +973,7 @@ const Evaluation = () => {
             {selectedCriteres.length === 0 ? (
               <div style={{ textAlign: "center", padding: "40px", color: "#6b7280" }}>
                 <p>Cliquez sur "Ajouter un critère" pour commencer l'évaluation</p>
-                <p style={{ fontSize: "14px" }}>Vous devez évaluer sur exactement 5 critères</p>
+                <p style={{ fontSize: "14px" }}>Vous devez évaluer un prestataire sur exactement 5 critères</p>
               </div>
             ) : (
               selectedCriteres.map((item, index) => (
@@ -1085,7 +1086,7 @@ const Evaluation = () => {
               {submitting
                 ? "Enregistrement..."
                 : doublon
-                ? "🚫 Évaluation déjà existante pour cette année"
+                ? " Évaluation déjà existante pour cette année"
                 : "Enregistrer l'évaluation"}
             </Button>
           </Form.Group>

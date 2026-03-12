@@ -17,8 +17,18 @@ import ProtectedRoute from "./pages/ProtectedRoute";
 import ForgotPassword from "./pages/ForgotPassword";
 import NotificationAdmin from "./pages/NotificationAdmin";
 import Notificationinbox from "./pages/Notificationinbox";
+import TelephoneAppel from "./pages/TelephoneAppel";
 
-
+const observer = window.ResizeObserver;
+window.ResizeObserver = class ResizeObserver extends observer {
+  constructor(callback) {
+    super((entries, observer) => {
+      requestAnimationFrame(() => {
+        callback(entries, observer);
+      });
+    });
+  }
+};
 const isAuthenticated = () => {
   return localStorage.getItem("user") !== null;
 };
@@ -79,7 +89,7 @@ function App() {
         <Route
           path="/prestataire/notifications"
           element={
-            <ProtectedRoute adminOnly={true}>
+            <ProtectedRoute>
               <Layout>
                 <Notificationinbox />
               </Layout>

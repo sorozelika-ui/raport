@@ -14,7 +14,20 @@ root.render(
   </React.StrictMode>
 );
 
+
+const observer = window.ResizeObserver;
+window.ResizeObserver = class ResizeObserver extends observer {
+  constructor(callback) {
+    super((entries, observer) => {
+      requestAnimationFrame(() => {
+        callback(entries, observer);
+      });
+    });
+  }
+};
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+

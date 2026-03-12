@@ -555,7 +555,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
-import {Home,Users,CheckCircle,ChevronRight,ChevronDown,FileText,Award,Calendar,Star,LogOut,User as UserIcon,Bell,X,AlertCircle} from "lucide-react";
+import { Home,Phone,Users,CheckCircle,ChevronRight,ChevronDown,FileText,Award,Calendar,Star,LogOut,User as UserIcon,Bell,X,AlertCircle} from "lucide-react";
 
 const Layout = ({ children }) => {
   const [openMenus, setOpenMenus] = useState({
@@ -764,7 +764,7 @@ const Layout = ({ children }) => {
                     onClick={() => handleNavigation("/prestataire/notifications")}
                     className="w-full flex items-center gap-3 p-3 text-sm bg-white bg-opacity-5 rounded-lg hover:bg-opacity-10 transition-all"
                   >
-                    <Award size={16} className="text-orange-300" /> Boite de reception
+                    <Phone size={16} className="text-orange-300" /> Boite de reception
                   </button>
                 </motion.div>
                 

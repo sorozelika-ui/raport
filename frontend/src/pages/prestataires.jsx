@@ -112,15 +112,24 @@ const Prestataires = () => {
   };
 
   // Delete
-  const handleDelete = () => {
-    axios
-      .delete(`http://127.0.0.1:8000/api/prestataire/${selected.id}`)
-      .then(() => {
-        setOpenDelete(false);
-        fetchPrestataires();
-      })
-      .catch(console.log);
-  };
+ const handleDelete = () => {
+  if (!selected || !selected.id) {
+    alert("Aucun prestataire sélectionné");
+    return;
+  }
+  
+  axios
+    .delete(`http://127.0.0.1:8000/api/prestataire/${selected.id}`)
+    .then(() => {
+      setOpenDelete(false);
+      setSelected(null); // reset après suppression
+      fetchPrestataires();
+    })
+    .catch((err) => {
+      console.error("Erreur suppression:", err.response?.data);
+      alert("Erreur: " + (err.response?.data?.message || err.message));
+    });
+};
 
   return (
     <div
