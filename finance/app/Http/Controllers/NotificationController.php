@@ -4,9 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Notification;
-
+use App\Models\type_prestataire;
 class NotificationController extends Controller
 {
+
+public function getAll()
+{
+    $notifications = Notification::with('prestataire')
+        ->orderBy('created_at', 'desc')
+        ->get();
+    return response()->json(['notifications' => $notifications]);
+}
     // Envoyer des notifications
     public function send(Request $request)
     {

@@ -70,11 +70,12 @@ Route::get('/evaluations/prestataire/{id}', [EvaluationController::class, 'getBy
 
 
 // Notifications
+Route::get('/notifications/all', [NotificationController::class, 'getAll']);
+
 Route::post('/notifications/send', [NotificationController::class, 'send']);
 Route::get('/notifications/prestataire/{id}', [NotificationController::class, 'getByPrestataire']);
 Route::put('/notifications/{id}/read', [NotificationController::class, 'reads']);
 Route::put('/notifications/prestataire/{id}/read-all', [NotificationController::class, 'AsRead']);
-
 
 // Routes pour la réinitialisation de mot de passe
 Route::post('/forgot-password', [PasswordResetController::class, 'forgotPassword']);

@@ -555,14 +555,19 @@ const NotificationAdmin = () => {
       <div style={{ background: "white", borderBottom: "1px solid #e2e8f0", padding: "0 32px" }}>
         <div style={{ maxWidth: "1400px", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: "72px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-            <div style={{ width: "44px", height: "44px", borderRadius: "12px", background: "linear-gradient(135deg, #1d4ed8, #3b82f6)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 12px rgba(59,130,246,0.3)" }}>
-              <Bell size={22} color="white" />
+            <div style={{ width: "50px", height: "50px",
+                   borderRadius: "14px", 
+                   background: "rgba(59, 130, 246, 0.2)", 
+                   display: "flex", 
+                   alignItems: "center", justifyContent: "center", 
+                   boxShadow: "0 4px 14px rgba(59,130,246,0.35)"  }}>
+              <Bell size={22} color="black" />
             </div>
             <div>
               <h1 style={{ margin: 0, fontSize: "20px", fontWeight: 700, color: "#0f172a", fontFamily: "'DM Serif Display', serif" }}>
                 Centre de Notifications
               </h1>
-              <p style={{ margin: 0, fontSize: "13px", color: "#64748b" }}>Administration des communications prestataires</p>
+              {/* <p style={{ margin: 0, fontSize: "13px", color: "#64748b" }}>Administration des communications prestataires</p> */}
             </div>
           </div>
 
@@ -611,13 +616,15 @@ const NotificationAdmin = () => {
               style={{ display: "grid", gridTemplateColumns: "380px 1fr", gap: "24px" }}>
 
               {/* Colonne gauche : sélection prestataires */}
-              <div style={{ background: "white", borderRadius: "16px", border: "1px solid #e2e8f0", overflow: "hidden", display: "flex", flexDirection: "column", maxHeight: "720px" }}>
+              <div style={{ background: "white", borderRadius: "16px", border: "1px solid #e2e8f0", 
+                overflow: "hidden", display: "flex", flexDirection: "column", maxHeight: "720px" }}>
                 <div style={{ padding: "20px 20px 16px", borderBottom: "1px solid #f1f5f9" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px" }}>
                     <h2 style={{ margin: 0, fontSize: "15px", fontWeight: 700, color: "#0f172a", display: "flex", alignItems: "center", gap: "8px" }}>
-                      <Users size={16} color="#2563eb" /> Destinataires
+                      <Users size={16} color="black" /> Destinataires
                     </h2>
-                    <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "2px 10px", borderRadius: "20px", fontSize: "12px", fontWeight: 700 }}>
+                    <span style={{ background: "rgba(59, 130, 246, 0.2)", color: "black", padding: "2px 10px", 
+                      borderRadius: "20px", fontSize: "12px", fontWeight: 700 }}>
                       {selected.length} / {prestataires.length}
                     </span>
                   </div>
@@ -625,18 +632,26 @@ const NotificationAdmin = () => {
                   <div style={{ position: "relative", marginBottom: "10px" }}>
                     <Search size={15} style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", color: "#94a3b8" }} />
                     <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Rechercher..."
-                      style={{ width: "100%", padding: "9px 12px 9px 36px", border: "1.5px solid #e2e8f0", borderRadius: "8px", fontSize: "13px", outline: "none", boxSizing: "border-box", color: "#0f172a" }} />
+                      style={{ width: "100%", padding: "9px 12px 9px 36px", border: "1.5px solid #e2e8f0", borderRadius: "8px", 
+                      fontSize: "13px", outline: "none", boxSizing: "border-box", color: "#0f172a" }} />
                   </div>
 
                   <select value={filterSpec} onChange={e => setFilterSpec(e.target.value)}
-                    style={{ width: "100%", padding: "9px 12px", border: "1.5px solid #e2e8f0", borderRadius: "8px", fontSize: "13px", outline: "none", color: "#475569" }}>
-                    {specialites.map(s => <option key={s} value={s}>{s === "all" ? "Toutes les spécialités" : s}</option>)}
+                    style={{alignItems: "center", justifyContent: "center",
+                    width: "100%", padding: "9px 12px", 
+                    border: "1.5px solid #e2e8f0", borderRadius: "8px", 
+                    fontSize: "13px", outline: "none", color: "#475569" }}>
+                    {specialites.map(s => <option key={s} value={s}>{s === "all" ? "Spécialité" : s}</option>)}
                   </select>
                 </div>
 
                 <div style={{ padding: "10px 20px 8px" }}>
                   <button onClick={toggleAll}
-                    style={{ width: "100%", padding: "8px", border: "1.5px dashed #cbd5e1", borderRadius: "8px", background: "transparent", fontSize: "13px", fontWeight: 600, color: "#475569", cursor: "pointer" }}>
+                    style={{ width: "100%", padding: "8px", 
+                      border: "1.5px dashed #cbd5e1", 
+                    borderRadius: "8px", background: "rgba(59, 130, 246, 0.2)", 
+                    fontSize: "13px", fontWeight: 600, 
+                    color: "black", cursor: "pointer" }}>
                     {selected.length === filtered.length && filtered.length > 0 ? "✕ Tout désélectionner" : "✓ Tout sélectionner"}
                   </button>
                 </div>
@@ -654,19 +669,23 @@ const NotificationAdmin = () => {
                         style={{
                           padding: "12px", marginBottom: "6px", borderRadius: "10px", cursor: "pointer",
                           border: `1.5px solid ${isSel ? "#3b82f6" : "#f1f5f9"}`,
-                          background: isSel ? "#eff6ff" : "#fafafa",
+                          background: isSel ? "white" : "white",
                           transition: "all 0.15s", display: "flex", alignItems: "center", gap: "12px",
                         }}>
-                        <div style={{ width: "38px", height: "38px", borderRadius: "10px", background: isSel ? "#2563eb" : "#e2e8f0", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: "15px", fontWeight: 700, color: isSel ? "white" : "#64748b", transition: "all 0.15s" }}>
+                        <div style={{ width: "38px", height: "38px", borderRadius: "10px", background: isSel ? "#2563eb" : "#e2e8f0", display: "flex", 
+                          alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: "15px", fontWeight: 700, 
+                          color: isSel ? "white" : "white", transition: "all 0.15s" }}>
                           {p.nom?.charAt(0)?.toUpperCase() || "?"}
                         </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <p style={{ margin: 0, fontSize: "13px", fontWeight: 600, color: "#0f172a", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.nom}</p>
-                          <p style={{ margin: "2px 0 0", fontSize: "11px", color: "#94a3b8", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.email}</p>
-                          <span style={{ fontSize: "10px", color: "#6366f1", background: "#eef2ff", padding: "1px 6px", borderRadius: "4px", marginTop: "4px", display: "inline-block" }}>{p.specialite}</span>
+                          <p style={{ margin: "2px 0 0", fontSize: "11px", color: "black", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.email}</p>
+                          <span style={{ fontSize: "10px", color: "black", background: "rgba(59, 130, 246, 0.2)", 
+                            padding: "1px 6px", borderRadius: "4px", marginTop: "4px", display: "inline-block" }}>{p.specialite}</span>
                         </div>
-                        <div style={{ width: "18px", height: "18px", borderRadius: "5px", border: `2px solid ${isSel ? "#2563eb" : "#cbd5e1"}`, background: isSel ? "#2563eb" : "white", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "all 0.15s" }}>
-                          {isSel && <CheckCircle size={12} color="white" />}
+                        <div style={{ width: "18px", height: "18px", borderRadius: "5px", border: `2px solid ${isSel ? "white" : "black"}`, 
+                        background: isSel ? "white" : "white", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "all 0.15s" }}>
+                          {isSel && <CheckCircle size={12} color="black" />}
                         </div>
                       </motion.div>
                     );

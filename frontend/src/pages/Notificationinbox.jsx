@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Bell, CheckCircle, Clock, Eye, EyeOff, Inbox, ChevronDown, ChevronUp, X } from "lucide-react";
+import { MailQuestionMark, CheckCircle, Clock, Eye, EyeOff, SquareMousePointer, ChevronDown, ChevronUp, X } from "lucide-react";
 import axios from "axios";
 
 const API = "http://127.0.0.1:8000/api";
@@ -212,8 +212,14 @@ const NotificationInbox = () => {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
               <div style={{ position: "relative" }}>
-                <div style={{ width: "50px", height: "50px", borderRadius: "14px", background: "linear-gradient(135deg, #1d4ed8, #3b82f6)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 14px rgba(59,130,246,0.35)" }}>
-                  <Bell size={24} color="white" />
+                <div style={{ width: "50px", height: "50px",
+                   borderRadius: "14px", 
+                   background: "rgba(59, 130, 246, 0.2)", 
+                   display: "flex", 
+                   alignItems: "center", justifyContent: "center", 
+                   boxShadow: "0 4px 14px rgba(59,130,246,0.35)" 
+                  }}>
+                  <MailQuestionMark size={24} color="black" />
                 </div>
                 {stats.nonLues > 0 && (
                   <motion.span
@@ -225,7 +231,7 @@ const NotificationInbox = () => {
               </div>
               <div>
                 <h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: "#0f172a", fontFamily: "'DM Serif Display', serif" }}>
-                  Mes Notifications
+                Boîte de reception
                 </h1>
                 <p style={{ margin: "3px 0 0", fontSize: "13px", color: "#64748b" }}>
                   {stats.nonLues > 0 ? `${stats.nonLues} non lue${stats.nonLues > 1 ? "s" : ""}` : "Tout est lu"} · {stats.total} au total
@@ -275,12 +281,14 @@ const NotificationInbox = () => {
           </div>
         ) : filtered.length === 0 ? (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-            style={{ textAlign: "center", padding: "80px 0", color: "#94a3b8" }}>
-            <Inbox size={48} style={{ marginBottom: "14px", opacity: 0.3 }} />
+            style={{ textAlign: "center", padding: "80px 0", 
+            color: "black",backgroundcolor:"rgba(59, 130, 246, 0.2)" }}>
+            <SquareMousePointer size={48} style={{ backgroundcolor:"rgba(59, 130, 246, 0.2)",
+              color:"black",marginBottom: "14px", opacity: 0.3 }} />
             <p style={{ margin: "0 0 4px", fontSize: "16px", fontWeight: 600, color: "#cbd5e1" }}>Aucune notification</p>
-            <p style={{ margin: 0, fontSize: "13px" }}>
+            {/* <p style={{ margin: 0, fontSize: "13px" }}>
               {filter === "unread" ? "Vous avez tout lu !" : "Rien ici pour le moment."}
-            </p>
+            </p> */}
           </motion.div>
         ) : (
           <motion.div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>

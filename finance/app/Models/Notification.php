@@ -23,6 +23,6 @@ class Notification extends Model
 
     public function prestataire()
     {
-        return $this->belongsTo(TypePrestataire::class, 'type_prestataire_id');
+        return $this->belongsTo(type_prestataire::class, 'type_prestataire_id');
     }
 }
